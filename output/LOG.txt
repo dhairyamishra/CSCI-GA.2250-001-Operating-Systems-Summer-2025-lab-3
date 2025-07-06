@@ -1,0 +1,396 @@
+cmp refout/out1_16_f output/out1_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 30790 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_16_r output/out1_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 30790 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_16_c output/out1_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 30790 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_16_e output/out1_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 19390 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_16_a output/out1_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 30790 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_16_w output/out1_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 30790 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_f output/out1_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_r output/out1_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_c output/out1_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_e output/out1_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_a output/out1_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out1_31_w output/out1_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 14990 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_f output/out2_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 37320 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_r output/out2_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 48290 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_c output/out2_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 37320 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_e output/out2_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 20220 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_a output/out2_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 37320 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_16_w output/out2_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 37320 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_f output/out2_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_r output/out2_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_c output/out2_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_e output/out2_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_a output/out2_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out2_31_w output/out2_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 31 1 0 13850 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_f output/out3_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 149090 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_r output/out3_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 153960 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_c output/out3_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 149090 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_e output/out3_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 98050 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_a output/out3_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 149090 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_16_w output/out3_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 149090 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_f output/out3_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 96000 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_r output/out3_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 94160 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_c output/out3_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 96000 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_e output/out3_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 53910 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_a output/out3_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 93150 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out3_31_w output/out3_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 90300 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_f output/out4_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 164804 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_r output/out4_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 153204 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_c output/out4_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 157894 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_e output/out4_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 117194 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_a output/out4_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 154034 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_16_w output/out4_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 154034 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_f output/out4_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 113934 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_r output/out4_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 104984 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_c output/out4_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 92194 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_e output/out4_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 65944 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_a output/out4_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 93204 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out4_31_w output/out4_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 93204 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_f output/out5_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 260450 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_r output/out5_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 257930 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_c output/out5_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 256250 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_e output/out5_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 239050 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_a output/out5_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 259440 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_16_w output/out5_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 259440 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_f output/out5_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 182770 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_r output/out5_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 165540 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_c output/out5_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 191170 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_e output/out5_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 166170 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_a output/out5_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 185390 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out5_31_w output/out5_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 185390 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_f output/out6_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 165672 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_r output/out6_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 166882 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_c output/out6_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 161612 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_e output/out6_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 138972 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_a output/out6_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 164462 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_16_w output/out6_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 164462 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_f output/out6_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 112602 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_r output/out6_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 80272 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_c output/out6_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 109752 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_e output/out6_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 77222 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_a output/out6_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 112602 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out6_31_w output/out6_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 101 1 0 112602 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_f output/out7_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 345820 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_r output/out7_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 339310 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_c output/out7_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 346830 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_e output/out7_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 309660 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_a output/out7_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 342770 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_16_w output/out7_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 342770 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_f output/out7_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 268210 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_r output/out7_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 212140 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_c output/out7_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 234870 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_e output/out7_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 190740 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_a output/out7_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 215150 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out7_31_w output/out7_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 213 13 0 215150 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_f output/out8_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 411520 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_r output/out8_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 428170 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_c output/out8_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 411520 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_e output/out8_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 408830 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_a output/out8_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 412530 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_16_w output/out8_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 412530 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_f output/out8_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 332860 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_r output/out8_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 319970 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_c output/out8_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 320050 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_e output/out8_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 283530 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_a output/out8_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 326330 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out8_31_w output/out8_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 210 10 0 326330 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_f output/out9_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3149238 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_r output/out9_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3258638 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_c output/out9_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3153298 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_e output/out9_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3205368 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_a output/out9_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3154308 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_16_w output/out9_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3154308 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_f output/out9_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3084598 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_r output/out9_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 2976088 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_c output/out9_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3085608 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_e output/out9_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 2896308 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_a output/out9_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3086278 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out9_31_w output/out9_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 1051 51 0 3086278 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_f output/out10_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14572336 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_r output/out10_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 15225956 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_c output/out10_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14566176 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_e output/out10_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14836226 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_a output/out10_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14563326 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_16_w output/out10_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14563326 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_f output/out10_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14468436 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_r output/out10_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14353776 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_c output/out10_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14468436 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_e output/out10_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14438176 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_a output/out10_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14471286 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out10_31_w output/out10_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 5243 243 0 14468436 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_f output/out11_16_f 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15095666 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_r output/out11_16_r 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15380906 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_c output/out11_16_c 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15085546 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_e output/out11_16_e 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15133616 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_a output/out11_16_a 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15093946 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_16_w output/out11_16_w 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 15093946 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_f output/out11_31_f 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 14288236 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_r output/out11_31_r 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 13900916 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_c output/out11_31_c 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 14306446 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_e output/out11_31_e 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 14151886 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_a output/out11_31_a 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 14312446 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
+cmp refout/out11_31_w output/out11_31_w 2>&1
+   DIR1-SUM ==> TOTALCOST 5245 243 2 14319356 4
+   DIR2-SUM ==> TOTALCOST 1 2 3 4 5
