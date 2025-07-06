@@ -117,14 +117,19 @@ static void dump_pt(const Process& p)
     std::cout << "PT[" << p.pid << "]: ";
     for (int i = 0; i < MAX_VPAGES; ++i) {
         const pte_t& e = p.page_table[i];
+
+        // print entry
         if (!e.PRESENT) {
-            std::cout << (e.PAGEDOUT ? "#" : "*") << " ";
+            std::cout << (e.PAGEDOUT ? "#" : "*");
         } else {
             std::cout << i << ":";
             std::cout << (e.REFERENCED ? "R" : "-");
             std::cout << (e.MODIFIED   ? "M" : "-");
-            std::cout << (e.PAGEDOUT   ? "S" : "-") << " ";
+            std::cout << (e.PAGEDOUT   ? "S" : "-");
         }
+
+        // delimiter between columns (but not after the last one)
+        if (i != MAX_VPAGES - 1) std::cout << ' ';
     }
     std::cout << "\n";
 }
@@ -139,8 +144,10 @@ static void dump_frame_table()
     std::cout << "FT: ";
     for (size_t i = 0; i < frame_table.size(); ++i) {
         const frame_t& f = frame_table[i];
-        if (f.proc == nullptr) std::cout << "* ";
-        else std::cout << f.proc->pid << ":" << f.vpage << " ";
+        if (f.proc == nullptr) std::cout << '*';
+        else std::cout << f.proc->pid << ':' << f.vpage;
+
+        if (i != frame_table.size() - 1) std::cout << ' ';
     }
     std::cout << "\n";
 }
@@ -196,12 +203,49 @@ static const VMA* find_vma(const Process& proc, int vp)
     return nullptr;
 }
 
+// ----------- eviction helper ------------
+static void evict_frame(frame_t* frame)
+{
+    if (frame->proc == nullptr) return; // frame is free
+
+    Process* victim_proc = frame->proc;
+    pte_t& vpte         = victim_proc->page_table[frame->vpage];
+
+    // UNMAP mandatory
+    std::cout << " UNMAP " << victim_proc->pid << ":" << frame->vpage << "\n";
+    victim_proc->unmaps++;
+    total_cost += COST_UNMAP;
+
+    // if modified, need to OUT/FOUT
+    if (vpte.MODIFIED) {
+        if (vpte.file_mapped) {
+            std::cout << " FOUT\n";
+            victim_proc->fouts++;
+            total_cost += COST_FOUT;
+        } else {
+            std::cout << " OUT\n";
+            victim_proc->outs++;
+            total_cost += COST_OUT;
+            vpte.PAGEDOUT = 1;    // remember it is on disk
+        }
+        vpte.MODIFIED = 0;  // page on disk is up-to-date
+    }
+
+    // clear mapping
+    vpte.PRESENT = 0;
+    victim_proc->page_table[frame->vpage].frame = 0;
+
+    // mark frame as free for reuse (owner & vpage will be overwritten by caller)
+    frame->proc  = nullptr;
+    frame->vpage = -1;
+}
+
 static void handle_page_fault(Process& proc, int vpage, char op)
 {
     // 1) Validate that the page belongs to one of the process VMAs
     const VMA* vma = find_vma(proc, vpage);
     if (vma == nullptr) {
-        std::cout << "  SEGV\n";       // segmentation violation
+        std::cout << " SEGV\n";       // segmentation violation
         proc.segv++;
         total_cost += COST_SEGV;
         return;                         // abort this memory reference
@@ -218,16 +262,27 @@ static void handle_page_fault(Process& proc, int vpage, char op)
 
     // 3) Obtain a physical frame (free or via pager replacement)
     frame_t* frame = get_free_frame();
+
+    // if occupied, evict old mapping
+    if (frame->proc != nullptr) {
+        evict_frame(frame);
+    }
+
+    // now frame is free -> assign to current mapping
     frame->proc  = &proc;
     frame->vpage = vpage;
 
     // 4) Load or initialize the page contents
     if (pte.file_mapped) {
-        std::cout << "  FIN\n";        // file-mapped page: read from file
+        std::cout << " FIN\n";        // file-mapped page: read from file
         proc.fins++;
         total_cost += COST_FIN;
+    } else if (pte.PAGEDOUT) {
+        std::cout << " IN\n";
+        proc.ins++;
+        total_cost += COST_IN;
     } else {
-        std::cout << "  ZERO\n";       // anonymous page: zero fill
+        std::cout << " ZERO\n";       // anonymous page: zero fill
         proc.zeros++;
         total_cost += COST_ZERO;
     }
@@ -236,7 +291,7 @@ static void handle_page_fault(Process& proc, int vpage, char op)
     pte.PRESENT = 1;
     pte.frame   = frame->fid;
 
-    std::cout << "  MAP " << frame->fid << "\n";
+    std::cout << " MAP " << frame->fid << "\n";
     proc.maps++;
     total_cost += COST_MAP;
 }
@@ -328,14 +383,19 @@ int main(int argc, char* argv[])
         std::cout << i << ": ==> " << ins.op << " " << ins.arg << "\n";
         instr_cnt++; total_cost+=1;
 
-        if(ins.op=='c'){ ctx_cnt++; total_cost+=COST_CTXSW; cur_pid=ins.arg; continue; }
+        if(ins.op=='c'){ 
+            /* cost of cycle already added, fixing to get proper total cost */ 
+            ctx_cnt++; total_cost += COST_CTXSW - 1; 
+            cur_pid=ins.arg; 
+            continue; 
+        }
         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
 
         if(ins.op=='r'||ins.op=='w'){
             int vp=ins.arg; pte_t& pte=cur.page_table[vp];
             if(!pte.PRESENT) handle_page_fault(cur,vp,ins.op);
             if(pte.PRESENT){ pte.REFERENCED=1; if(ins.op=='w'){
-                if(pte.WRITE_PROTECT){ std::cout<<"  SEGPROT\n"; cur.segprot++; total_cost+=COST_SEGPROT; }
+                if(pte.WRITE_PROTECT){ std::cout<<" SEGPROT\n"; cur.segprot++; total_cost+=COST_SEGPROT; }
                 else pte.MODIFIED=1; }} }
 
         if (dbg_x && cur_pid >= 0) dump_pt(cur);
@@ -344,11 +404,18 @@ int main(int argc, char* argv[])
     }
 
     // ---- footer ----
-    for(const auto& p:procs){ dump_pt(p); std::cout<<"PROC["<<p.pid<<"]: U="<<p.unmaps<<" M="<<p.maps
-        <<" I="<<p.ins<<" O="<<p.outs<<" FI="<<p.fins<<" FO="<<p.fouts<<" Z="<<p.zeros
-        <<" SV="<<p.segv<<" SP="<<p.segprot<<"\n"; }
+    unsigned long total_outs = 0;
+    for(const auto& p:procs){ 
+        dump_pt(p); 
+    }
     dump_frame_table();
-    std::cout<<"TOTALCOST "<<instr_cnt<<' '<<ctx_cnt<<' '<<exit_cnt<<' '<<total_cost<<' '<<frame_table.size()<<"\n";
+    for(const auto& p:procs){ 
+        std::cout<<"PROC["<<p.pid<<"]: U="<<p.unmaps<<" M="<<p.maps
+        <<" I="<<p.ins<<" O="<<p.outs<<" FI="<<p.fins<<" FO="<<p.fouts<<" Z="<<p.zeros
+        <<" SV="<<p.segv<<" SP="<<p.segprot<<"\n"; 
+        total_outs += p.outs;
+    }
+    std::cout<<"TOTALCOST "<<instr_cnt<<' '<<ctx_cnt<<' '<<exit_cnt<<' '<<total_cost<<' '<<total_outs<<"\n";
 
     return 0;
 }

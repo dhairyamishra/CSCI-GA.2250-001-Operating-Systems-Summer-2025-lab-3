@@ -1,7 +1,7 @@
-e671b39b5a26021e2b747b61c9ea640c  - /home/dpm/1000/Bahubali/0706/1544/13.3.0
+f639009e9a2c0522c1be58afb3ad2da4  - /home/dpm/1000/Bahubali/0706/1625/13.3.0
 
 input  frames    f  r  c  e  a  w
-1       16       #  #  #  #  #  #
+1       16       .  #  #  #  #  #
 1       31       #  #  #  #  #  #
 2       16       #  #  #  #  #  #
 2       31       #  #  #  #  #  #
@@ -23,4 +23,4 @@ input  frames    f  r  c  e  a  w
 10      31       #  #  #  #  #  #
 11      16       #  #  #  #  #  #
 11      31       #  #  #  #  #  #
-SUM              0  0  0  0  0  0
+SUM              1  0  0  0  0  0
