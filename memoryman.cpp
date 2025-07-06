@@ -9,10 +9,12 @@
 #include <cctype>
 #include <deque>
 #include <array>
+#include <memory>
 
 // ----------------- constants -----------------
-constexpr int MAX_VPAGES = 64;   // fixed per spec
+constexpr int MAX_VPAGES = 64;   
 constexpr int MAX_FRAMES_LIMIT = 128; 
+
 // ----------------- core MMU structs ----------
 struct pte_t {
     unsigned int PRESENT       : 1;
@@ -50,6 +52,10 @@ struct Process {
     int pid;
     std::vector<VMA> vmas;
     std::array<pte_t, MAX_VPAGES> page_table{}; // zero-initialized PTEs
+    // stats
+    unsigned long unmaps{0}, maps{0}, ins{0}, outs{0};
+    unsigned long fins{0}, fouts{0}, zeros{0};
+    unsigned long segv{0}, segprot{0};
 };
 
 struct Instruction {
@@ -90,10 +96,25 @@ static bool getline_skip_comments(std::istream& in, std::string& out)
 static std::vector<frame_t> frame_table; // sized at runtime
 static std::deque<int>      free_list;   // indices of free frames
 
+// ---- global stats ----
+static unsigned long instr_cnt=0, ctx_cnt=0, exit_cnt=0, total_cost=0;
+
+// cost constants
+constexpr int COST_MAP=410, 
+COST_UNMAP=440, 
+COST_IN=3210,
+COST_OUT=2850,
+COST_FIN=3350, 
+COST_FOUT=2930, 
+COST_ZERO=160,
+COST_SEGV=444,
+COST_SEGPROT=414,
+COST_CTXSW=140;
+
 // ----------------- dump helpers ----------------
 static void dump_pt(const Process& p)
 {
-    std::cout << "PT " << p.pid << " : ";
+    std::cout << "PT[" << p.pid << "]: ";
     for (int i = 0; i < MAX_VPAGES; ++i) {
         const pte_t& e = p.page_table[i];
         if (!e.PRESENT) {
@@ -115,13 +136,109 @@ static void dump_all_pts(const std::vector<Process>& procs)
 
 static void dump_frame_table()
 {
-    std::cout << "FT : ";
+    std::cout << "FT: ";
     for (size_t i = 0; i < frame_table.size(); ++i) {
         const frame_t& f = frame_table[i];
         if (f.proc == nullptr) std::cout << "* ";
         else std::cout << f.proc->pid << ":" << f.vpage << " ";
     }
     std::cout << "\n";
+}
+
+// ------------ Pager hierarchy -------------
+class Pager { 
+    public: virtual frame_t* select_victim_frame()=0; 
+    virtual ~Pager()=default; 
+};
+
+class FIFO : public Pager {
+    std::deque<int> q;
+public:
+    frame_t* select_victim_frame() override {
+        int idx = q.front();
+        q.pop_front();
+        q.push_back(idx);               // keep circular order
+        return &frame_table[idx];
+    }
+
+    void frame_allocated(int idx) {
+        q.push_back(idx);
+    }
+};
+
+static std::unique_ptr<Pager> pager;
+
+static frame_t* get_free_frame()
+{
+    // return a frame from the free list if available
+    if (!free_list.empty()) {
+        int idx = free_list.front();
+        free_list.pop_front();
+
+        // let the pager (e.g., FIFO) know about the new allocation
+        if (auto* fifo = dynamic_cast<FIFO*>(pager.get())) {
+            fifo->frame_allocated(idx);
+        }
+        return &frame_table[idx];
+    }
+
+    // otherwise ask the pager for a victim frame
+    return pager->select_victim_frame();
+}
+
+static const VMA* find_vma(const Process& proc, int vp)
+{
+    for (const auto& v : proc.vmas) {
+        if (vp >= v.start_vpage && vp <= v.end_vpage) {
+            return &v;
+        }
+    }
+    return nullptr;
+}
+
+static void handle_page_fault(Process& proc, int vpage, char op)
+{
+    // 1) Validate that the page belongs to one of the process VMAs
+    const VMA* vma = find_vma(proc, vpage);
+    if (vma == nullptr) {
+        std::cout << "  SEGV\n";       // segmentation violation
+        proc.segv++;
+        total_cost += COST_SEGV;
+        return;                         // abort this memory reference
+    }
+
+    // 2) Populate invariant PTE bits from the VMA (only once)
+    pte_t& pte = proc.page_table[vpage];
+    if (!pte.WRITE_PROTECT && vma->write_protected) {
+        pte.WRITE_PROTECT = 1;
+    }
+    if (!pte.file_mapped && vma->file_mapped) {
+        pte.file_mapped = 1;
+    }
+
+    // 3) Obtain a physical frame (free or via pager replacement)
+    frame_t* frame = get_free_frame();
+    frame->proc  = &proc;
+    frame->vpage = vpage;
+
+    // 4) Load or initialize the page contents
+    if (pte.file_mapped) {
+        std::cout << "  FIN\n";        // file-mapped page: read from file
+        proc.fins++;
+        total_cost += COST_FIN;
+    } else {
+        std::cout << "  ZERO\n";       // anonymous page: zero fill
+        proc.zeros++;
+        total_cost += COST_ZERO;
+    }
+
+    // 5) Finalize mapping
+    pte.PRESENT = 1;
+    pte.frame   = frame->fid;
+
+    std::cout << "  MAP " << frame->fid << "\n";
+    proc.maps++;
+    total_cost += COST_MAP;
 }
 
 int main(int argc, char* argv[])
@@ -147,6 +264,17 @@ int main(int argc, char* argv[])
     for (int i = 0; i < num_frames; ++i) {
         frame_table[i].fid = i;
         free_list.push_back(i);
+    }
+
+    // 2. instantiate pager based on -a option 
+    if(algo == 0) {
+        // default when -a not given: FIFO
+        pager = std::make_unique<FIFO>();
+    } else if(algo == 'f' || algo == 'F') {
+        pager = std::make_unique<FIFO>();
+    } else {
+        std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
+        return 1; // terminate instead of silently choosing another pager
     }
 
     /* 2. Decode debug flags in the -o string */
@@ -193,22 +321,34 @@ int main(int argc, char* argv[])
         insts.push_back(ins);
     }
 
-    // --------------- sanity print (temporary) ----------------
-    std::cout << "Read " << procs.size() << " processes\n";
-    for (const auto& p : procs)
-        std::cout << "  " << p << "\n";
-    std::cout << "Read " << insts.size() << " instructions\n\n";
-
+    // ----------------- simulation loop -----------------
     int cur_pid = -1;
-    // ----------------- dummy walk to show desired output format ---------
     for (size_t i = 0; i < insts.size(); ++i) {
         const auto& ins = insts[i];
         std::cout << i << ": ==> " << ins.op << " " << ins.arg << "\n";
-        if (ins.op == 'c') cur_pid = ins.arg;
-        if (dbg_x && cur_pid >= 0) dump_pt(procs[cur_pid]);
-        if (dbg_y) dump_all_pts(procs);
-        if (dbg_f) dump_frame_table();
+        instr_cnt++; total_cost+=1;
+
+        if(ins.op=='c'){ ctx_cnt++; total_cost+=COST_CTXSW; cur_pid=ins.arg; continue; }
+        if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+
+        if(ins.op=='r'||ins.op=='w'){
+            int vp=ins.arg; pte_t& pte=cur.page_table[vp];
+            if(!pte.PRESENT) handle_page_fault(cur,vp,ins.op);
+            if(pte.PRESENT){ pte.REFERENCED=1; if(ins.op=='w'){
+                if(pte.WRITE_PROTECT){ std::cout<<"  SEGPROT\n"; cur.segprot++; total_cost+=COST_SEGPROT; }
+                else pte.MODIFIED=1; }} }
+
+        if (dbg_x && cur_pid >= 0) dump_pt(cur);
+        if(dbg_y) dump_all_pts(procs);
+        if(dbg_f) dump_frame_table();
     }
+
+    // ---- footer ----
+    for(const auto& p:procs){ dump_pt(p); std::cout<<"PROC["<<p.pid<<"]: U="<<p.unmaps<<" M="<<p.maps
+        <<" I="<<p.ins<<" O="<<p.outs<<" FI="<<p.fins<<" FO="<<p.fouts<<" Z="<<p.zeros
+        <<" SV="<<p.segv<<" SP="<<p.segprot<<"\n"; }
+    dump_frame_table();
+    std::cout<<"TOTALCOST "<<instr_cnt<<' '<<ctx_cnt<<' '<<exit_cnt<<' '<<total_cost<<' '<<frame_table.size()<<"\n";
 
     return 0;
 }
