@@ -1,0 +1,406 @@
+Bahubali
+make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+rm -f memoryman                 
+rm -rf output               *.o *.d 
+make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
+memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
+memoryman.cpp:279:62: warning: unused parameter ‘op’ [-Wunused-parameter]
+  279 | static void handle_page_fault(Process& proc, int vpage, char op)
+      |                                                         ~~~~~^~
+memoryman.cpp: In function ‘int main(int, char**)’:
+memoryman.cpp:464:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  464 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+      |         ^~
+memoryman.cpp:464:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  464 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+      |                                 ^~~~~~~
+memoryman.cpp:411:10: warning: unused variable ‘dbg_a’ [-Wunused-variable]
+  411 |     bool dbg_a = opts.find('a') != std::string::npos;
+      |          ^~~~~
+memoryman.cpp: At global scope:
+memoryman.cpp:73:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
+   73 | static std::ostream& operator<<(std::ostream& os, const Process& p) {
+      |                      ^~~~~~~~
+bash runit.sh output               ./memoryman                 
+./memoryman -f16 -af -oOPFS ./in1 ./rfile
+in1_16_f: TOTALCOST 31 1 0 30790 4
+./memoryman -f31 -af -oOPFS ./in1 ./rfile
+in1_31_f: TOTALCOST 31 1 0 14990 4
+./memoryman -f16 -ar -oOPFS ./in1 ./rfile
+in1_16_r: TOTALCOST 31 1 0 30790 4
+./memoryman -f31 -ar -oOPFS ./in1 ./rfile
+in1_31_r: TOTALCOST 31 1 0 14990 4
+./memoryman -f16 -ac -oOPFS ./in1 ./rfile
+error: pager algorithm 'c' is not implemented
+in1_16_c: 
+./memoryman -f31 -ac -oOPFS ./in1 ./rfile
+error: pager algorithm 'c' is not implemented
+in1_31_c: 
+./memoryman -f16 -ae -oOPFS ./in1 ./rfile
+error: pager algorithm 'e' is not implemented
+in1_16_e: 
+./memoryman -f31 -ae -oOPFS ./in1 ./rfile
+error: pager algorithm 'e' is not implemented
+in1_31_e: 
+./memoryman -f16 -aa -oOPFS ./in1 ./rfile
+error: pager algorithm 'a' is not implemented
+in1_16_a: 
+./memoryman -f31 -aa -oOPFS ./in1 ./rfile
+error: pager algorithm 'a' is not implemented
+in1_31_a: 
+./memoryman -f16 -aw -oOPFS ./in1 ./rfile
+error: pager algorithm 'w' is not implemented
+in1_16_w: 
+./memoryman -f31 -aw -oOPFS ./in1 ./rfile
+error: pager algorithm 'w' is not implemented
+in1_31_w: 
+./memoryman -f16 -af -oOPFS ./in2 ./rfile
+in2_16_f: TOTALCOST 31 1 0 37320 4
+./memoryman -f31 -af -oOPFS ./in2 ./rfile
+in2_31_f: TOTALCOST 31 1 0 13850 4
+./memoryman -f16 -ar -oOPFS ./in2 ./rfile
+in2_16_r: TOTALCOST 31 1 0 48290 4
+./memoryman -f31 -ar -oOPFS ./in2 ./rfile
+in2_31_r: TOTALCOST 31 1 0 13850 4
+./memoryman -f16 -ac -oOPFS ./in2 ./rfile
+error: pager algorithm 'c' is not implemented
+in2_16_c: 
+./memoryman -f31 -ac -oOPFS ./in2 ./rfile
+error: pager algorithm 'c' is not implemented
+in2_31_c: 
+./memoryman -f16 -ae -oOPFS ./in2 ./rfile
+error: pager algorithm 'e' is not implemented
+in2_16_e: 
+./memoryman -f31 -ae -oOPFS ./in2 ./rfile
+error: pager algorithm 'e' is not implemented
+in2_31_e: 
+./memoryman -f16 -aa -oOPFS ./in2 ./rfile
+error: pager algorithm 'a' is not implemented
+in2_16_a: 
+./memoryman -f31 -aa -oOPFS ./in2 ./rfile
+error: pager algorithm 'a' is not implemented
+in2_31_a: 
+./memoryman -f16 -aw -oOPFS ./in2 ./rfile
+error: pager algorithm 'w' is not implemented
+in2_16_w: 
+./memoryman -f31 -aw -oOPFS ./in2 ./rfile
+error: pager algorithm 'w' is not implemented
+in2_31_w: 
+./memoryman -f16 -af -oOPFS ./in3 ./rfile
+in3_16_f: TOTALCOST 101 1 0 149090 4
+./memoryman -f31 -af -oOPFS ./in3 ./rfile
+in3_31_f: TOTALCOST 101 1 0 96000 4
+./memoryman -f16 -ar -oOPFS ./in3 ./rfile
+in3_16_r: TOTALCOST 101 1 0 153960 4
+./memoryman -f31 -ar -oOPFS ./in3 ./rfile
+in3_31_r: TOTALCOST 101 1 0 94160 4
+./memoryman -f16 -ac -oOPFS ./in3 ./rfile
+error: pager algorithm 'c' is not implemented
+in3_16_c: 
+./memoryman -f31 -ac -oOPFS ./in3 ./rfile
+error: pager algorithm 'c' is not implemented
+in3_31_c: 
+./memoryman -f16 -ae -oOPFS ./in3 ./rfile
+error: pager algorithm 'e' is not implemented
+in3_16_e: 
+./memoryman -f31 -ae -oOPFS ./in3 ./rfile
+error: pager algorithm 'e' is not implemented
+in3_31_e: 
+./memoryman -f16 -aa -oOPFS ./in3 ./rfile
+error: pager algorithm 'a' is not implemented
+in3_16_a: 
+./memoryman -f31 -aa -oOPFS ./in3 ./rfile
+error: pager algorithm 'a' is not implemented
+in3_31_a: 
+./memoryman -f16 -aw -oOPFS ./in3 ./rfile
+error: pager algorithm 'w' is not implemented
+in3_16_w: 
+./memoryman -f31 -aw -oOPFS ./in3 ./rfile
+error: pager algorithm 'w' is not implemented
+in3_31_w: 
+./memoryman -f16 -af -oOPFS ./in4 ./rfile
+in4_16_f: TOTALCOST 101 1 0 164804 4
+./memoryman -f31 -af -oOPFS ./in4 ./rfile
+in4_31_f: TOTALCOST 101 1 0 113934 4
+./memoryman -f16 -ar -oOPFS ./in4 ./rfile
+in4_16_r: TOTALCOST 101 1 0 153204 4
+./memoryman -f31 -ar -oOPFS ./in4 ./rfile
+in4_31_r: TOTALCOST 101 1 0 104984 4
+./memoryman -f16 -ac -oOPFS ./in4 ./rfile
+error: pager algorithm 'c' is not implemented
+in4_16_c: 
+./memoryman -f31 -ac -oOPFS ./in4 ./rfile
+error: pager algorithm 'c' is not implemented
+in4_31_c: 
+./memoryman -f16 -ae -oOPFS ./in4 ./rfile
+error: pager algorithm 'e' is not implemented
+in4_16_e: 
+./memoryman -f31 -ae -oOPFS ./in4 ./rfile
+error: pager algorithm 'e' is not implemented
+in4_31_e: 
+./memoryman -f16 -aa -oOPFS ./in4 ./rfile
+error: pager algorithm 'a' is not implemented
+in4_16_a: 
+./memoryman -f31 -aa -oOPFS ./in4 ./rfile
+error: pager algorithm 'a' is not implemented
+in4_31_a: 
+./memoryman -f16 -aw -oOPFS ./in4 ./rfile
+error: pager algorithm 'w' is not implemented
+in4_16_w: 
+./memoryman -f31 -aw -oOPFS ./in4 ./rfile
+error: pager algorithm 'w' is not implemented
+in4_31_w: 
+./memoryman -f16 -af -oOPFS ./in5 ./rfile
+in5_16_f: TOTALCOST 101 1 0 260450 4
+./memoryman -f31 -af -oOPFS ./in5 ./rfile
+in5_31_f: TOTALCOST 101 1 0 182770 4
+./memoryman -f16 -ar -oOPFS ./in5 ./rfile
+in5_16_r: TOTALCOST 101 1 0 257930 4
+./memoryman -f31 -ar -oOPFS ./in5 ./rfile
+in5_31_r: TOTALCOST 101 1 0 165540 4
+./memoryman -f16 -ac -oOPFS ./in5 ./rfile
+error: pager algorithm 'c' is not implemented
+in5_16_c: 
+./memoryman -f31 -ac -oOPFS ./in5 ./rfile
+error: pager algorithm 'c' is not implemented
+in5_31_c: 
+./memoryman -f16 -ae -oOPFS ./in5 ./rfile
+error: pager algorithm 'e' is not implemented
+in5_16_e: 
+./memoryman -f31 -ae -oOPFS ./in5 ./rfile
+error: pager algorithm 'e' is not implemented
+in5_31_e: 
+./memoryman -f16 -aa -oOPFS ./in5 ./rfile
+error: pager algorithm 'a' is not implemented
+in5_16_a: 
+./memoryman -f31 -aa -oOPFS ./in5 ./rfile
+error: pager algorithm 'a' is not implemented
+in5_31_a: 
+./memoryman -f16 -aw -oOPFS ./in5 ./rfile
+error: pager algorithm 'w' is not implemented
+in5_16_w: 
+./memoryman -f31 -aw -oOPFS ./in5 ./rfile
+error: pager algorithm 'w' is not implemented
+in5_31_w: 
+./memoryman -f16 -af -oOPFS ./in6 ./rfile
+in6_16_f: TOTALCOST 101 1 0 165672 4
+./memoryman -f31 -af -oOPFS ./in6 ./rfile
+in6_31_f: TOTALCOST 101 1 0 112602 4
+./memoryman -f16 -ar -oOPFS ./in6 ./rfile
+in6_16_r: TOTALCOST 101 1 0 166882 4
+./memoryman -f31 -ar -oOPFS ./in6 ./rfile
+in6_31_r: TOTALCOST 101 1 0 80272 4
+./memoryman -f16 -ac -oOPFS ./in6 ./rfile
+error: pager algorithm 'c' is not implemented
+in6_16_c: 
+./memoryman -f31 -ac -oOPFS ./in6 ./rfile
+error: pager algorithm 'c' is not implemented
+in6_31_c: 
+./memoryman -f16 -ae -oOPFS ./in6 ./rfile
+error: pager algorithm 'e' is not implemented
+in6_16_e: 
+./memoryman -f31 -ae -oOPFS ./in6 ./rfile
+error: pager algorithm 'e' is not implemented
+in6_31_e: 
+./memoryman -f16 -aa -oOPFS ./in6 ./rfile
+error: pager algorithm 'a' is not implemented
+in6_16_a: 
+./memoryman -f31 -aa -oOPFS ./in6 ./rfile
+error: pager algorithm 'a' is not implemented
+in6_31_a: 
+./memoryman -f16 -aw -oOPFS ./in6 ./rfile
+error: pager algorithm 'w' is not implemented
+in6_16_w: 
+./memoryman -f31 -aw -oOPFS ./in6 ./rfile
+error: pager algorithm 'w' is not implemented
+in6_31_w: 
+./memoryman -f16 -af -oOPFS ./in7 ./rfile
+in7_16_f: TOTALCOST 213 13 0 345820 4
+./memoryman -f31 -af -oOPFS ./in7 ./rfile
+in7_31_f: TOTALCOST 213 13 0 268210 4
+./memoryman -f16 -ar -oOPFS ./in7 ./rfile
+in7_16_r: TOTALCOST 213 13 0 339310 4
+./memoryman -f31 -ar -oOPFS ./in7 ./rfile
+in7_31_r: TOTALCOST 213 13 0 212140 4
+./memoryman -f16 -ac -oOPFS ./in7 ./rfile
+error: pager algorithm 'c' is not implemented
+in7_16_c: 
+./memoryman -f31 -ac -oOPFS ./in7 ./rfile
+error: pager algorithm 'c' is not implemented
+in7_31_c: 
+./memoryman -f16 -ae -oOPFS ./in7 ./rfile
+error: pager algorithm 'e' is not implemented
+in7_16_e: 
+./memoryman -f31 -ae -oOPFS ./in7 ./rfile
+error: pager algorithm 'e' is not implemented
+in7_31_e: 
+./memoryman -f16 -aa -oOPFS ./in7 ./rfile
+error: pager algorithm 'a' is not implemented
+in7_16_a: 
+./memoryman -f31 -aa -oOPFS ./in7 ./rfile
+error: pager algorithm 'a' is not implemented
+in7_31_a: 
+./memoryman -f16 -aw -oOPFS ./in7 ./rfile
+error: pager algorithm 'w' is not implemented
+in7_16_w: 
+./memoryman -f31 -aw -oOPFS ./in7 ./rfile
+error: pager algorithm 'w' is not implemented
+in7_31_w: 
+./memoryman -f16 -af -oOPFS ./in8 ./rfile
+in8_16_f: TOTALCOST 210 10 0 411520 4
+./memoryman -f31 -af -oOPFS ./in8 ./rfile
+in8_31_f: TOTALCOST 210 10 0 332860 4
+./memoryman -f16 -ar -oOPFS ./in8 ./rfile
+in8_16_r: TOTALCOST 210 10 0 428170 4
+./memoryman -f31 -ar -oOPFS ./in8 ./rfile
+in8_31_r: TOTALCOST 210 10 0 319970 4
+./memoryman -f16 -ac -oOPFS ./in8 ./rfile
+error: pager algorithm 'c' is not implemented
+in8_16_c: 
+./memoryman -f31 -ac -oOPFS ./in8 ./rfile
+error: pager algorithm 'c' is not implemented
+in8_31_c: 
+./memoryman -f16 -ae -oOPFS ./in8 ./rfile
+error: pager algorithm 'e' is not implemented
+in8_16_e: 
+./memoryman -f31 -ae -oOPFS ./in8 ./rfile
+error: pager algorithm 'e' is not implemented
+in8_31_e: 
+./memoryman -f16 -aa -oOPFS ./in8 ./rfile
+error: pager algorithm 'a' is not implemented
+in8_16_a: 
+./memoryman -f31 -aa -oOPFS ./in8 ./rfile
+error: pager algorithm 'a' is not implemented
+in8_31_a: 
+./memoryman -f16 -aw -oOPFS ./in8 ./rfile
+error: pager algorithm 'w' is not implemented
+in8_16_w: 
+./memoryman -f31 -aw -oOPFS ./in8 ./rfile
+error: pager algorithm 'w' is not implemented
+in8_31_w: 
+./memoryman -f16 -af -oOPFS ./in9 ./rfile
+in9_16_f: TOTALCOST 1051 51 0 3149238 4
+./memoryman -f31 -af -oOPFS ./in9 ./rfile
+in9_31_f: TOTALCOST 1051 51 0 3084598 4
+./memoryman -f16 -ar -oOPFS ./in9 ./rfile
+in9_16_r: TOTALCOST 1051 51 0 3258638 4
+./memoryman -f31 -ar -oOPFS ./in9 ./rfile
+in9_31_r: TOTALCOST 1051 51 0 2976088 4
+./memoryman -f16 -ac -oOPFS ./in9 ./rfile
+error: pager algorithm 'c' is not implemented
+in9_16_c: 
+./memoryman -f31 -ac -oOPFS ./in9 ./rfile
+error: pager algorithm 'c' is not implemented
+in9_31_c: 
+./memoryman -f16 -ae -oOPFS ./in9 ./rfile
+error: pager algorithm 'e' is not implemented
+in9_16_e: 
+./memoryman -f31 -ae -oOPFS ./in9 ./rfile
+error: pager algorithm 'e' is not implemented
+in9_31_e: 
+./memoryman -f16 -aa -oOPFS ./in9 ./rfile
+error: pager algorithm 'a' is not implemented
+in9_16_a: 
+./memoryman -f31 -aa -oOPFS ./in9 ./rfile
+error: pager algorithm 'a' is not implemented
+in9_31_a: 
+./memoryman -f16 -aw -oOPFS ./in9 ./rfile
+error: pager algorithm 'w' is not implemented
+in9_16_w: 
+./memoryman -f31 -aw -oOPFS ./in9 ./rfile
+error: pager algorithm 'w' is not implemented
+in9_31_w: 
+./memoryman -f16 -af -oOPFS ./in10 ./rfile
+in10_16_f: TOTALCOST 5243 243 0 14572336 4
+./memoryman -f31 -af -oOPFS ./in10 ./rfile
+in10_31_f: TOTALCOST 5243 243 0 14468436 4
+./memoryman -f16 -ar -oOPFS ./in10 ./rfile
+in10_16_r: TOTALCOST 5243 243 0 15225956 4
+./memoryman -f31 -ar -oOPFS ./in10 ./rfile
+in10_31_r: TOTALCOST 5243 243 0 14353776 4
+./memoryman -f16 -ac -oOPFS ./in10 ./rfile
+error: pager algorithm 'c' is not implemented
+in10_16_c: 
+./memoryman -f31 -ac -oOPFS ./in10 ./rfile
+error: pager algorithm 'c' is not implemented
+in10_31_c: 
+./memoryman -f16 -ae -oOPFS ./in10 ./rfile
+error: pager algorithm 'e' is not implemented
+in10_16_e: 
+./memoryman -f31 -ae -oOPFS ./in10 ./rfile
+error: pager algorithm 'e' is not implemented
+in10_31_e: 
+./memoryman -f16 -aa -oOPFS ./in10 ./rfile
+error: pager algorithm 'a' is not implemented
+in10_16_a: 
+./memoryman -f31 -aa -oOPFS ./in10 ./rfile
+error: pager algorithm 'a' is not implemented
+in10_31_a: 
+./memoryman -f16 -aw -oOPFS ./in10 ./rfile
+error: pager algorithm 'w' is not implemented
+in10_16_w: 
+./memoryman -f31 -aw -oOPFS ./in10 ./rfile
+error: pager algorithm 'w' is not implemented
+in10_31_w: 
+./memoryman -f16 -af -oOPFS ./in11 ./rfile
+in11_16_f: TOTALCOST 5245 243 2 15143036 4
+./memoryman -f31 -af -oOPFS ./in11 ./rfile
+in11_31_f: TOTALCOST 5245 243 2 14243566 4
+./memoryman -f16 -ar -oOPFS ./in11 ./rfile
+in11_16_r: TOTALCOST 5245 243 2 15380906 4
+./memoryman -f31 -ar -oOPFS ./in11 ./rfile
+in11_31_r: TOTALCOST 5245 243 2 13900916 4
+./memoryman -f16 -ac -oOPFS ./in11 ./rfile
+error: pager algorithm 'c' is not implemented
+in11_16_c: 
+./memoryman -f31 -ac -oOPFS ./in11 ./rfile
+error: pager algorithm 'c' is not implemented
+in11_31_c: 
+./memoryman -f16 -ae -oOPFS ./in11 ./rfile
+error: pager algorithm 'e' is not implemented
+in11_16_e: 
+./memoryman -f31 -ae -oOPFS ./in11 ./rfile
+error: pager algorithm 'e' is not implemented
+in11_31_e: 
+./memoryman -f16 -aa -oOPFS ./in11 ./rfile
+error: pager algorithm 'a' is not implemented
+in11_16_a: 
+./memoryman -f31 -aa -oOPFS ./in11 ./rfile
+error: pager algorithm 'a' is not implemented
+in11_31_a: 
+./memoryman -f16 -aw -oOPFS ./in11 ./rfile
+error: pager algorithm 'w' is not implemented
+in11_16_w: 
+./memoryman -f31 -aw -oOPFS ./in11 ./rfile
+error: pager algorithm 'w' is not implemented
+in11_31_w: 
+bash gradeit.sh refout               output              
+6776f14164464b867caa40070820f61b  - /home/dpm/1000/Bahubali/0706/2023/13.3.0
+
+input  frames    f  r  c  e  a  w
+1       16       .  .  #  #  #  #
+1       31       .  .  #  #  #  #
+2       16       .  .  #  #  #  #
+2       31       .  .  #  #  #  #
+3       16       .  .  #  #  #  #
+3       31       .  .  #  #  #  #
+4       16       .  .  #  #  #  #
+4       31       .  .  #  #  #  #
+5       16       .  .  #  #  #  #
+5       31       .  .  #  #  #  #
+6       16       .  .  #  #  #  #
+6       31       .  .  #  #  #  #
+7       16       .  .  #  #  #  #
+7       31       .  .  #  #  #  #
+8       16       .  .  #  #  #  #
+8       31       .  .  #  #  #  #
+9       16       .  .  #  #  #  #
+9       31       .  .  #  #  #  #
+10      16       .  .  #  #  #  #
+10      31       .  .  #  #  #  #
+11      16       #  #  #  #  #  #
+11      31       #  #  #  #  #  #
+SUM             20 20  0  0  0  0
+make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'

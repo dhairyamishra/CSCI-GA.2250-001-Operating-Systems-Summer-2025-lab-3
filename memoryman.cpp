@@ -109,7 +109,8 @@ COST_FOUT=2930,
 COST_ZERO=160,
 COST_SEGV=444,
 COST_SEGPROT=414,
-COST_CTXSW=140;
+COST_CTXSW=140,
+COST_EXIT=1430;
 
 // ----------------- dump helpers ----------------
 static void dump_pt(const Process& p)
@@ -171,7 +172,42 @@ public:
     void frame_allocated(int idx) {
         q.push_back(idx);
     }
+
+    void frame_freed(int idx) {
+        // remove first occurrence of idx from queue (O(n) but n<=128)
+        for(auto it=q.begin(); it!=q.end(); ++it){
+            if(*it==idx){ q.erase(it); break; }
+        }
+    }
 };
+
+static std::vector<int> randvals;
+static size_t rand_ofs = 0;
+
+static inline int myrandom(int randomnumber); // forward declaration
+
+static void load_rand_file(const std::string& fname) {
+    std::ifstream fin(fname);
+    if(!fin) { std::cerr << "cannot open randfile " << fname << "\n"; std::exit(1);}    
+    size_t n; fin >> n;
+    randvals.reserve(n);
+    int x; while(fin >> x) randvals.push_back(x);
+    rand_ofs = 0;
+}
+
+class RandomPager : public Pager {
+public:
+    frame_t* select_victim_frame() override {
+        int idx = myrandom(frame_table.size());
+        return &frame_table[idx];
+    }
+};
+
+static inline int myrandom(int randomnumber) {       // returns 0..randomnumber-1
+    int r = randvals[rand_ofs] % randomnumber;
+    rand_ofs = (rand_ofs + 1) % randvals.size();
+    return r;
+}
 
 static std::unique_ptr<Pager> pager;
 
@@ -296,6 +332,38 @@ static void handle_page_fault(Process& proc, int vpage, char op)
     total_cost += COST_MAP;
 }
 
+static void process_exit(Process& proc)
+{
+    for(int vp=0; vp<MAX_VPAGES; ++vp){
+        pte_t& pte = proc.page_table[vp];
+        if(!pte.PRESENT) continue;
+
+        frame_t* frame = &frame_table[pte.frame];
+
+        // UNMAP
+        std::cout << " UNMAP " << proc.pid << ":" << vp << "\n";
+        proc.unmaps++; total_cost += COST_UNMAP;
+
+        // if modified, handle FOUT (do NOT OUT anonymous pages on exit)
+        if(pte.MODIFIED){
+            if(pte.file_mapped){
+                std::cout << " FOUT\n";
+                proc.fouts++; total_cost += COST_FOUT;
+            }
+            // anonymous dirty page is simply discarded; no OUT cost/stat
+            pte.MODIFIED = 0;
+        }
+
+        // clear mapping in PTE and frame
+        pte.PRESENT = 0; pte.frame = 0;
+
+        frame->proc = nullptr; frame->vpage = -1;
+
+        // return frame to free list 
+        free_list.push_back(frame->fid); 
+    }
+}
+
 int main(int argc, char* argv[])
 {
     // 1. parse  -f<num_frames>  -a<algo>  [-o<opts>]
@@ -327,10 +395,14 @@ int main(int argc, char* argv[])
         pager = std::make_unique<FIFO>();
     } else if(algo == 'f' || algo == 'F') {
         pager = std::make_unique<FIFO>();
+    } else if(algo == 'r' || algo == 'R') {
+        pager = std::make_unique<RandomPager>();
     } else {
         std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
         return 1; // terminate instead of silently choosing another pager
     }
+
+    load_rand_file(argv[optind+1]);
 
     /* 2. Decode debug flags in the -o string */
     bool dbg_x = opts.find('x') != std::string::npos;
@@ -398,13 +470,21 @@ int main(int argc, char* argv[])
                 if(pte.WRITE_PROTECT){ std::cout<<" SEGPROT\n"; cur.segprot++; total_cost+=COST_SEGPROT; }
                 else pte.MODIFIED=1; }} }
 
+        if(ins.op=='e'){
+            int pid_to_exit = ins.arg;
+            process_exit(procs[pid_to_exit]);
+            exit_cnt++; total_cost += COST_EXIT - 1; // already counted 1 cycle
+
+            if(cur_pid == pid_to_exit) cur_pid = -1; // exiting currently running process
+            continue;
+        }
+
         if (dbg_x && cur_pid >= 0) dump_pt(cur);
         if(dbg_y) dump_all_pts(procs);
         if(dbg_f) dump_frame_table();
     }
 
     // ---- footer ----
-    unsigned long total_outs = 0;
     for(const auto& p:procs){ 
         dump_pt(p); 
     }
@@ -413,9 +493,8 @@ int main(int argc, char* argv[])
         std::cout<<"PROC["<<p.pid<<"]: U="<<p.unmaps<<" M="<<p.maps
         <<" I="<<p.ins<<" O="<<p.outs<<" FI="<<p.fins<<" FO="<<p.fouts<<" Z="<<p.zeros
         <<" SV="<<p.segv<<" SP="<<p.segprot<<"\n"; 
-        total_outs += p.outs;
     }
-    std::cout<<"TOTALCOST "<<instr_cnt<<' '<<ctx_cnt<<' '<<exit_cnt<<' '<<total_cost<<' '<<total_outs<<"\n";
+    std::cout<<"TOTALCOST "<<instr_cnt<<' '<<ctx_cnt<<' '<<exit_cnt<<' '<<total_cost<<' '<<sizeof(pte_t)<<"\n";
 
     return 0;
 }

@@ -34,9 +34,9 @@ logs:
 	bash gradeit.sh $(REFDIR) $(OUTDIR) > gradeit.log
 
 # convenience meta-target -----------------------------------------------
-all: all test grade logs
+runall: all test grade logs
 
 # cleanup ---------------------------------------------------------------
 clean:
 	rm -f $(BIN)
-	rm -rf $(OUTDIR) *.o *.d make.log gradeit.log
+	rm -rf $(OUTDIR) *.o *.d 
