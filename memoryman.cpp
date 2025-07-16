@@ -10,6 +10,7 @@
 #include <deque>
 #include <array>
 #include <memory>
+#include <algorithm>
 
 // ----------------- constants -----------------
 constexpr int MAX_VPAGES = 64;   
@@ -334,6 +335,7 @@ static void handle_page_fault(Process& proc, int vpage, char op)
 
 static void process_exit(Process& proc)
 {
+    std::vector<int> freed;
     for(int vp=0; vp<MAX_VPAGES; ++vp){
         pte_t& pte = proc.page_table[vp];
         if(!pte.PRESENT) continue;
@@ -355,12 +357,31 @@ static void process_exit(Process& proc)
         }
 
         // clear mapping in PTE and frame
-        pte.PRESENT = 0; pte.frame = 0;
+        pte.PRESENT = 0;
+        pte.REFERENCED = 0;
+        pte.frame = 0;
 
         frame->proc = nullptr; frame->vpage = -1;
 
-        // return frame to free list 
-        free_list.push_back(frame->fid); 
+        // preserve the order of release
+        freed.push_back(frame->fid);
+
+        //reset the PTE to all zeros so that no PAGEDOUT
+        pte = {};
+    }
+
+    // FIFO victim order expected by the reference implementation.
+    if(auto* fifo = dynamic_cast<FIFO*>(pager.get())){
+        for(int fid: freed) fifo->frame_freed(fid);
+    }
+
+    // reused before any earlier idle frames. 
+    for(auto it = freed.rbegin(); it != freed.rend(); ++it)
+        free_list.push_front(*it);
+
+    // reset page table entries
+    for(int vp=0; vp<MAX_VPAGES; ++vp){
+        proc.page_table[vp] = {};
     }
 }
 
@@ -472,6 +493,7 @@ int main(int argc, char* argv[])
 
         if(ins.op=='e'){
             int pid_to_exit = ins.arg;
+            std::cout << "EXIT current process " << pid_to_exit << "\n"; // exact reference format
             process_exit(procs[pid_to_exit]);
             exit_cnt++; total_cost += COST_EXIT - 1; // already counted 1 cycle
 

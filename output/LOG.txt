@@ -240,10 +240,7 @@ cmp refout/out10_31_w output/out10_31_w 2>&1
    DIR2-SUM ==> 
 cmp refout/out11_16_f output/out11_16_f 2>&1
    DIR1-SUM ==> TOTALCOST 5245 243 2 15095666 4
-   DIR2-SUM ==> TOTALCOST 5245 243 2 15143036 4
-cmp refout/out11_16_r output/out11_16_r 2>&1
-   DIR1-SUM ==> TOTALCOST 5245 243 2 15380906 4
-   DIR2-SUM ==> TOTALCOST 5245 243 2 15380906 4
+   DIR2-SUM ==> TOTALCOST 5245 243 2 15095666 4
 cmp refout/out11_16_c output/out11_16_c 2>&1
    DIR1-SUM ==> TOTALCOST 5245 243 2 15085546 4
    DIR2-SUM ==> 
@@ -258,10 +255,7 @@ cmp refout/out11_16_w output/out11_16_w 2>&1
    DIR2-SUM ==> 
 cmp refout/out11_31_f output/out11_31_f 2>&1
    DIR1-SUM ==> TOTALCOST 5245 243 2 14288236 4
-   DIR2-SUM ==> TOTALCOST 5245 243 2 14243566 4
-cmp refout/out11_31_r output/out11_31_r 2>&1
-   DIR1-SUM ==> TOTALCOST 5245 243 2 13900916 4
-   DIR2-SUM ==> TOTALCOST 5245 243 2 13900916 4
+   DIR2-SUM ==> TOTALCOST 5245 243 2 14288236 4
 cmp refout/out11_31_c output/out11_31_c 2>&1
    DIR1-SUM ==> TOTALCOST 5245 243 2 14306446 4
    DIR2-SUM ==> 

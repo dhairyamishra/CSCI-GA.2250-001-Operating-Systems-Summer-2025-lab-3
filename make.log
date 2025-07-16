@@ -6,22 +6,22 @@ make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_as
 make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
 memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
-memoryman.cpp:279:62: warning: unused parameter ‘op’ [-Wunused-parameter]
-  279 | static void handle_page_fault(Process& proc, int vpage, char op)
+memoryman.cpp:280:62: warning: unused parameter ‘op’ [-Wunused-parameter]
+  280 | static void handle_page_fault(Process& proc, int vpage, char op)
       |                                                         ~~~~~^~
 memoryman.cpp: In function ‘int main(int, char**)’:
-memoryman.cpp:464:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
-  464 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:493:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  493 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |         ^~
-memoryman.cpp:464:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
-  464 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:493:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  493 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |                                 ^~~~~~~
-memoryman.cpp:411:10: warning: unused variable ‘dbg_a’ [-Wunused-variable]
-  411 |     bool dbg_a = opts.find('a') != std::string::npos;
+memoryman.cpp:440:10: warning: unused variable ‘dbg_a’ [-Wunused-variable]
+  440 |     bool dbg_a = opts.find('a') != std::string::npos;
       |          ^~~~~
 memoryman.cpp: At global scope:
-memoryman.cpp:73:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
-   73 | static std::ostream& operator<<(std::ostream& os, const Process& p) {
+memoryman.cpp:74:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
+   74 | static std::ostream& operator<<(std::ostream& os, const Process& p) {
       |                      ^~~~~~~~
 bash runit.sh output               ./memoryman                 
 ./memoryman -f16 -af -oOPFS ./in1 ./rfile
@@ -345,9 +345,9 @@ in10_16_w:
 error: pager algorithm 'w' is not implemented
 in10_31_w: 
 ./memoryman -f16 -af -oOPFS ./in11 ./rfile
-in11_16_f: TOTALCOST 5245 243 2 15143036 4
+in11_16_f: TOTALCOST 5245 243 2 15095666 4
 ./memoryman -f31 -af -oOPFS ./in11 ./rfile
-in11_31_f: TOTALCOST 5245 243 2 14243566 4
+in11_31_f: TOTALCOST 5245 243 2 14288236 4
 ./memoryman -f16 -ar -oOPFS ./in11 ./rfile
 in11_16_r: TOTALCOST 5245 243 2 15380906 4
 ./memoryman -f31 -ar -oOPFS ./in11 ./rfile
@@ -377,7 +377,7 @@ in11_16_w:
 error: pager algorithm 'w' is not implemented
 in11_31_w: 
 bash gradeit.sh refout               output              
-6776f14164464b867caa40070820f61b  - /home/dpm/1000/Bahubali/0706/2023/13.3.0
+8f8c09833ab687304722dd1540d4d42c  - /home/dpm/1000/Bahubali/0716/0151/13.3.0
 
 input  frames    f  r  c  e  a  w
 1       16       .  .  #  #  #  #
@@ -400,7 +400,7 @@ input  frames    f  r  c  e  a  w
 9       31       .  .  #  #  #  #
 10      16       .  .  #  #  #  #
 10      31       .  .  #  #  #  #
-11      16       #  #  #  #  #  #
-11      31       #  #  #  #  #  #
-SUM             20 20  0  0  0  0
+11      16       #  .  #  #  #  #
+11      31       #  .  #  #  #  #
+SUM             20 22  0  0  0  0
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
