@@ -97,6 +97,13 @@ static bool getline_skip_comments(std::istream& in, std::string& out)
 static std::vector<frame_t> frame_table; // sized at runtime
 static std::deque<int>      free_list;   // indices of free frames
 
+// Re-usable helper: remove a frame id from free_list if present
+static inline void remove_from_free_list(int fid){
+    for(auto it=free_list.begin(); it!=free_list.end(); ++it){
+        if(*it==fid){ free_list.erase(it); break; }
+    }
+}
+
 // ---- global stats ----
 static unsigned long instr_cnt=0, ctx_cnt=0, exit_cnt=0, total_cost=0;
 
@@ -163,21 +170,52 @@ class Pager {
 class FIFO : public Pager {
     std::deque<int> q;
 public:
+    // accessor for external inspection (debug/exit logic)
+    const std::deque<int>& get_queue() const { return q; }
+
+    // Debug helper: print current queue order (oldest at front)
+
+
     frame_t* select_victim_frame() override {
         int idx = q.front();
-        q.pop_front();
-        q.push_back(idx);               // keep circular order
+        q.pop_front();                  // DO NOT push_back here – caller will
         return &frame_table[idx];
     }
 
     void frame_allocated(int idx) {
         q.push_back(idx);
+
     }
 
     void frame_freed(int idx) {
-        // remove first occurrence of idx from queue (O(n) but n<=128)
         for(auto it=q.begin(); it!=q.end(); ++it){
             if(*it==idx){ q.erase(it); break; }
+        }
+    }
+};
+
+class Clock : public Pager {
+    size_t hand = 0; // points to next frame to examine
+public:
+    frame_t* select_victim_frame() override {
+        const size_t N = frame_table.size();
+        while (true) {
+            frame_t* f = &frame_table[hand];
+            // wrap hand for next call already – easy on brain
+            hand = (hand + 1) % N;
+
+            // free frame is impossible here (free_list would have supplied it),
+            // but handle gracefully
+            if (f->proc == nullptr)
+                return f;
+
+            pte_t& pte = f->proc->page_table[f->vpage];
+            if (pte.REFERENCED) {
+                pte.REFERENCED = 0;     // give second chance
+                continue;               // advance hand
+            }
+            // found victim
+            return f;
         }
     }
 };
@@ -214,20 +252,16 @@ static std::unique_ptr<Pager> pager;
 
 static frame_t* get_free_frame()
 {
-    // return a frame from the free list if available
-    if (!free_list.empty()) {
+    if(!free_list.empty()){
         int idx = free_list.front();
         free_list.pop_front();
-
-        // let the pager (e.g., FIFO) know about the new allocation
-        if (auto* fifo = dynamic_cast<FIFO*>(pager.get())) {
-            fifo->frame_allocated(idx);
-        }
         return &frame_table[idx];
     }
 
-    // otherwise ask the pager for a victim frame
-    return pager->select_victim_frame();
+    // need a victim chosen by pager
+    frame_t* frame = pager->select_victim_frame();
+    remove_from_free_list(frame->fid);  // ensure no duplicate in free_list
+    return frame;
 }
 
 static const VMA* find_vma(const Process& proc, int vp)
@@ -331,6 +365,10 @@ static void handle_page_fault(Process& proc, int vpage, char op)
     std::cout << " MAP " << frame->fid << "\n";
     proc.maps++;
     total_cost += COST_MAP;
+
+    // inform FIFO once the frame is successfully mapped
+    if(auto* fifo = dynamic_cast<FIFO*>(pager.get()))
+        fifo->frame_allocated(frame->fid);
 }
 
 static void process_exit(Process& proc)
@@ -368,16 +406,27 @@ static void process_exit(Process& proc)
 
         //reset the PTE to all zeros so that no PAGEDOUT
         pte = {};
+        #ifdef DBG_FIFO
+        std::cout << "  [DEBUG] Freed frame " << frame->fid << " on process exit\n";
+        #endif
     }
 
-    // FIFO victim order expected by the reference implementation.
-    if(auto* fifo = dynamic_cast<FIFO*>(pager.get())){
-        for(int fid: freed) fifo->frame_freed(fid);
+    // --- Return freed frames to free_list preserving FIFO chronology -----
+    if (auto* fifo = dynamic_cast<FIFO*>(pager.get())) {
+        // Remove all freed frames from FIFO queue (if present)
+        for (int fid : freed) {
+            fifo->frame_freed(fid);
+        }
+    
+        // Reuse freed frames in LIFO order (as required)
+        for (auto it = freed.rbegin(); it != freed.rend(); ++it) {
+            free_list.push_front(*it);
+        }
+    } else {
+        // For non-FIFO: reuse in any order (here we just append to free list)
+        for (int fid : freed)
+            free_list.push_back(fid);
     }
-
-    // reused before any earlier idle frames. 
-    for(auto it = freed.rbegin(); it != freed.rend(); ++it)
-        free_list.push_front(*it);
 
     // reset page table entries
     for(int vp=0; vp<MAX_VPAGES; ++vp){
@@ -418,6 +467,8 @@ int main(int argc, char* argv[])
         pager = std::make_unique<FIFO>();
     } else if(algo == 'r' || algo == 'R') {
         pager = std::make_unique<RandomPager>();
+    } else if(algo == 'c' || algo == 'C') {
+        pager = std::make_unique<Clock>();
     } else {
         std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
         return 1; // terminate instead of silently choosing another pager
