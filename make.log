@@ -6,22 +6,22 @@ make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_as
 make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
 memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
-memoryman.cpp:385:62: warning: unused parameter ‘op’ [-Wunused-parameter]
-  385 | static void handle_page_fault(Process& proc, int vpage, char op)
+memoryman.cpp:372:62: warning: unused parameter ‘op’ [-Wunused-parameter]
+  372 | static void handle_page_fault(Process& proc, int vpage, char op)
       |                                                         ~~~~~^~
 memoryman.cpp: In function ‘void process_exit(Process&)’:
-memoryman.cpp:499:20: warning: unused variable ‘random’ [-Wunused-variable]
-  499 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
+memoryman.cpp:486:20: warning: unused variable ‘random’ [-Wunused-variable]
+  486 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
       |                    ^~~~~~
-memoryman.cpp:495:21: warning: unused variable ‘clock’ [-Wunused-variable]
-  495 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
+memoryman.cpp:482:21: warning: unused variable ‘clock’ [-Wunused-variable]
+  482 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
       |                     ^~~~~
 memoryman.cpp: In function ‘int main(int, char**)’:
-memoryman.cpp:617:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
-  617 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:604:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  604 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |         ^~
-memoryman.cpp:617:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
-  617 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:604:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  604 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |                                 ^~~~~~~
 memoryman.cpp: At global scope:
 memoryman.cpp:78:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
@@ -337,7 +337,7 @@ in11_16_w:
 error: pager algorithm 'w' is not implemented
 in11_31_w: 
 bash gradeit.sh refout               output              
-d1163270c7ce157d61d57a69f79f0888  - /home/dpm/1000/Bahubali/0717/0104/13.3.0
+05de17bc2591bb7b1377244e48598e9b  - /home/dpm/1000/Bahubali/0717/0243/13.3.0
 
 input  frames    f  r  c  e  a  w
 1       16       .  .  .  .  #  #
@@ -360,7 +360,7 @@ input  frames    f  r  c  e  a  w
 9       31       .  .  .  .  #  #
 10      16       .  .  .  .  #  #
 10      31       .  .  .  .  #  #
-11      16       #  .  .  .  #  #
-11      31       #  .  .  .  #  #
-SUM             20 22 22 22  0  0
+11      16       .  .  .  .  #  #
+11      31       .  .  .  .  #  #
+SUM             22 22 22 22  0  0
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'

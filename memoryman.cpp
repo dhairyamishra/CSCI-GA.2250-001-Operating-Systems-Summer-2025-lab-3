@@ -191,30 +191,17 @@ class Pager {
 };
 
 class FIFO : public Pager {
-    std::deque<int> q;
+    size_t hand = 0;                // next frame to evict
 public:
-    // accessor for external inspection (debug/exit logic)
-    const std::deque<int>& get_queue() const { return q; }
-
-    // Debug helper: print current queue order (oldest at front)
-
-
     frame_t* select_victim_frame() override {
-        int idx = q.front();
-        q.pop_front();                  // DO NOT push_back here – caller will
-        return &frame_table[idx];
+        frame_t* victim = &frame_table[hand];
+        hand = (hand + 1) % frame_table.size();   // round-robin
+        return victim;
     }
 
-    void frame_allocated(int idx) {
-        q.push_back(idx);
-
-    }
-
-    void frame_freed(int idx) {
-        for(auto it=q.begin(); it!=q.end(); ++it){
-            if(*it==idx){ q.erase(it); break; }
-        }
-    }
+    /* not needed after updating FIFO to use hand to check for free frames delete later */
+    void frame_allocated(int) {}    // not used
+    void frame_freed(int)     {}    // not used
 };
 
 class Clock : public Pager {
