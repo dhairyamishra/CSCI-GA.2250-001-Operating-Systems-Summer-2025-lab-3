@@ -1,0 +1,120 @@
+--- refout/out3_16_e	2025-06-21 12:10:41.000000000 -0400
++++ output/out3_16_e	2025-07-16 23:58:04.483638300 -0400
+@@ -181,141 +181,146 @@
+ 58: ==> w 2
+ 59: ==> r 2
+ 60: ==> w 15
+- UNMAP 0:23
+- OUT
++ UNMAP 0:10
+  ZERO
+- MAP 15
++ MAP 4
+ 61: ==> r 27
+- UNMAP 0:7
+- OUT
++ UNMAP 0:26
+  ZERO
+- MAP 0
++ MAP 6
+ 62: ==> r 61
+- UNMAP 0:20
++ UNMAP 0:37
+  OUT
+  ZERO
+- MAP 2
++ MAP 7
+ 63: ==> w 25
+- UNMAP 0:62
++ UNMAP 0:33
+  OUT
+  ZERO
+- MAP 5
++ MAP 9
+ 64: ==> r 33
++ UNMAP 0:23
++ OUT
++ IN
++ MAP 15
+ 65: ==> w 39
+- UNMAP 0:37
++ UNMAP 0:7
+  OUT
+  ZERO
+- MAP 7
++ MAP 0
+ 66: ==> r 63
+- UNMAP 0:22
++ UNMAP 0:20
++ OUT
+  ZERO
+- MAP 11
++ MAP 2
+ 67: ==> r 25
+ 68: ==> r 61
+ 69: ==> r 33
+ 70: ==> r 38
+- UNMAP 0:45
++ UNMAP 0:62
++ OUT
+  ZERO
+- MAP 12
++ MAP 5
+ 71: ==> w 23
+- UNMAP 0:17
++ UNMAP 0:27
+  IN
+- MAP 13
++ MAP 6
+ 72: ==> r 15
+ 73: ==> r 31
+- UNMAP 0:4
++ UNMAP 0:61
+  ZERO
+- MAP 14
++ MAP 7
+ 74: ==> r 36
+- UNMAP 0:27
++ UNMAP 0:22
+  ZERO
+- MAP 0
++ MAP 11
+ 75: ==> r 13
+- UNMAP 0:61
++ UNMAP 0:45
+  ZERO
+- MAP 2
++ MAP 12
+ 76: ==> r 10
++ UNMAP 0:17
++ ZERO
++ MAP 13
+ 77: ==> w 20
+- UNMAP 0:10
++ UNMAP 0:4
+  IN
+- MAP 4
++ MAP 14
+ 78: ==> r 34
+- UNMAP 0:26
++ UNMAP 0:33
+  ZERO
+- MAP 6
++ MAP 15
+ 79: ==> w 39
+ 80: ==> r 41
+  UNMAP 0:63
+  ZERO
+- MAP 11
++ MAP 2
+ 81: ==> r 19
+  UNMAP 0:38
+  ZERO
+- MAP 12
++ MAP 5
+ 82: ==> r 3
+  UNMAP 0:31
+  ZERO
+- MAP 14
++ MAP 7
+ 83: ==> w 51

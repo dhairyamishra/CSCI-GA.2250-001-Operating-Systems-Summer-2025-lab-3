@@ -30,6 +30,12 @@ struct pte_t {
 };
 static_assert(sizeof(pte_t) == 4, "pte_t must be 32-bit");
 
+static bool dbg_a_enabled = false;   // turned on by -oa
+static void aselect_log(const std::string& msg)
+{
+    if (dbg_a_enabled) std::cout << "ASELECT: " << msg << "\n";
+}
+
 // forward declaration so frame_t can reference Process
 struct Process;
 
@@ -54,9 +60,7 @@ struct Process {
     std::vector<VMA> vmas;
     std::array<pte_t, MAX_VPAGES> page_table{}; // zero-initialized PTEs
     // stats
-    unsigned long unmaps{0}, maps{0}, ins{0}, outs{0};
-    unsigned long fins{0}, fouts{0}, zeros{0};
-    unsigned long segv{0}, segprot{0};
+    unsigned long unmaps{0}, maps{0}, ins{0}, outs{0},fins{0}, fouts{0}, zeros{0},segv{0}, segprot{0};
 };
 
 struct Instruction {
@@ -120,6 +124,25 @@ COST_SEGPROT=414,
 COST_CTXSW=140,
 COST_EXIT=1430;
 
+static std::vector<int> randvals;
+static size_t rand_ofs = 0;
+
+static inline int myrandom(int randomnumber); 
+
+static void load_rand_file(const std::string& fname) {
+    std::ifstream fin(fname);
+    if(!fin) { std::cerr << "cannot open randfile " << fname << "\n"; std::exit(1);}    
+    size_t n; fin >> n;
+    randvals.reserve(n);
+    int x; while(fin >> x) randvals.push_back(x);
+    rand_ofs = 0;
+}
+
+static inline int myrandom(int randomnumber) {       // returns 0..randomnumber-1
+    int r = randvals[rand_ofs] % randomnumber;
+    rand_ofs = (rand_ofs + 1) % randvals.size();
+    return r;
+}
 // ----------------- dump helpers ----------------
 static void dump_pt(const Process& p)
 {
@@ -220,19 +243,72 @@ public:
     }
 };
 
-static std::vector<int> randvals;
-static size_t rand_ofs = 0;
+class NRU : public Pager {
+    size_t hand = 0;
+    unsigned long last_reset_inst = 0;
 
-static inline int myrandom(int randomnumber); // forward declaration
+public:
+    frame_t* select_victim_frame() override {
+        const size_t N = frame_table.size();
+        std::array<frame_t*,4> first{};           // first frame of each class
+        bool reset_now = (instr_cnt - last_reset_inst) >=48;
 
-static void load_rand_file(const std::string& fname) {
-    std::ifstream fin(fname);
-    if(!fin) { std::cerr << "cannot open randfile " << fname << "\n"; std::exit(1);}    
-    size_t n; fin >> n;
-    randvals.reserve(n);
-    int x; while(fin >> x) randvals.push_back(x);
-    rand_ofs = 0;
-}
+        size_t start = hand;
+        size_t scanned = 0;
+        int    lowest_class = 3;                  // track lowest class seen
+
+        /* ---------- PASS 1 : classify ---------- */
+        for (size_t i = 0; i < N; ++i) {
+            size_t idx   = (hand + i) % N;
+            frame_t* frm = &frame_table[idx];
+            if (!frm->proc) continue;
+
+            pte_t& pte = frm->proc->page_table[frm->vpage];
+            int cls    = (pte.REFERENCED << 1) | pte.MODIFIED;
+            if (!first[cls]) first[cls] = frm;
+            lowest_class = std::min(lowest_class, cls);
+
+            scanned++;
+            if (cls == 0 && !reset_now) {         // perfect victim found
+                hand = (idx + 1) % N;
+                aselect_log(std::to_string(start) + " "
+                        + (reset_now ? "1" : "0") + " | "
+                        + std::to_string(lowest_class) + " "
+                        + std::to_string(frm->fid) + " "
+                        + std::to_string(scanned));
+                return frm;
+            }
+        }
+
+        /* ---------- PASS 2 : reset R bits if needed ---------- */
+        if (reset_now) {
+            for (frame_t& f : frame_table)
+                if (f.proc) f.proc->page_table[f.vpage].REFERENCED = 0;
+            last_reset_inst = instr_cnt;
+        }
+
+        /* ---------- choose lowest non-empty class ---------- */
+        for (int c = 0; c < 4; ++c)
+            if (first[c]) {
+                hand = (first[c]->fid + 1) % N;
+                aselect_log(std::to_string(start) + " "
+                        + (reset_now ? "1" : "0") + " | "
+                        + std::to_string(lowest_class) + " "
+                        + std::to_string(first[c]->fid) + " "
+                        + std::to_string(scanned));
+                return first[c];
+            }
+
+        /* never reached, but keep compiler happy */
+        hand = (hand + 1) % N;
+        return &frame_table[hand];
+    }
+
+};
+
+
+
+
 
 class RandomPager : public Pager {
 public:
@@ -242,11 +318,6 @@ public:
     }
 };
 
-static inline int myrandom(int randomnumber) {       // returns 0..randomnumber-1
-    int r = randvals[rand_ofs] % randomnumber;
-    rand_ofs = (rand_ofs + 1) % randvals.size();
-    return r;
-}
 
 static std::unique_ptr<Pager> pager;
 
@@ -417,13 +488,20 @@ static void process_exit(Process& proc)
         for (int fid : freed) {
             fifo->frame_freed(fid);
         }
-    
         // Reuse freed frames in LIFO order (as required)
         for (auto it = freed.rbegin(); it != freed.rend(); ++it) {
             free_list.push_front(*it);
         }
-    } else {
-        // For non-FIFO: reuse in any order (here we just append to free list)
+    }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
+        for (int fid : freed)
+        free_list.push_back(fid);
+    } 
+    else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
+        for (int fid : freed)
+        free_list.push_back(fid);
+    } 
+    else {
+        //Default
         for (int fid : freed)
             free_list.push_back(fid);
     }
@@ -469,6 +547,8 @@ int main(int argc, char* argv[])
         pager = std::make_unique<RandomPager>();
     } else if(algo == 'c' || algo == 'C') {
         pager = std::make_unique<Clock>();
+    } else if(algo == 'e' || algo == 'E') {
+        pager = std::make_unique<NRU>();
     } else {
         std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
         return 1; // terminate instead of silently choosing another pager
@@ -481,6 +561,7 @@ int main(int argc, char* argv[])
     bool dbg_y = opts.find('y') != std::string::npos;
     bool dbg_f = opts.find('f') != std::string::npos;
     bool dbg_a = opts.find('a') != std::string::npos;
+    dbg_a_enabled = dbg_a;
 
     // ----------------- 3. parse INPUT FILE -----------------
     std::ifstream fin(argv[optind]);
