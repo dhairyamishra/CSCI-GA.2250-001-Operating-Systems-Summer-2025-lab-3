@@ -293,8 +293,54 @@ public:
 
 };
 
+/* ---------------- Aging Pager ---------------- */
+class Aging : public Pager {
+    size_t hand = 0;                       // next frame to inspect
+public:
+    frame_t* select_victim_frame() override
+    {
+        const size_t N = frame_table.size();
+        frame_t* victim       = nullptr;
+        unsigned int min_age  = 0xFFFFFFFF;
+        size_t start = hand;
 
+        /* scan every frame exactly once */
+        for (size_t i = 0; i < N; ++i) {
+            size_t idx   = (hand + i) % N;
+            frame_t* frm = &frame_table[idx];
 
+            pte_t& pte = frm->proc->page_table[frm->vpage];
+
+            /* --- aging update: shift right, insert REF into MSB --- */
+            frm->age >>= 1;
+            if (pte.REFERENCED) {
+                frm->age |= 0x80000000u;
+                pte.REFERENCED = 0;       // clear R after use
+            }
+
+            if (frm->age < min_age) {
+                min_age = frm->age;
+                victim  = frm;
+            }
+        }
+
+        /* debug trace */
+        if (dbg_a_enabled) {
+            std::ostringstream os;
+            os << "ASELECT " << start << "-" << ((hand + N - 1) % N) << " |";
+            for (size_t i = 0; i < N; ++i) {
+                size_t idx = (start + i) % N;
+                os << ' ' << idx << ':' << std::hex << frame_table[idx].age;
+            }
+            os << " | " << victim->fid;
+            aselect_log(os.str());
+        }
+
+        /* advance hand for next call */
+        hand = (victim->fid + 1) % frame_table.size();
+        return victim;
+    }
+};
 
 
 class RandomPager : public Pager {
@@ -419,6 +465,8 @@ static void handle_page_fault(Process& proc, int vpage, char op)
     // 5) Finalize mapping
     pte.PRESENT = 1;
     pte.frame   = frame->fid;
+    // age has to be reset to 0 on each MAP operation
+    frame->age  = 0; // reset age for aging algo
 
     std::cout << " MAP " << frame->fid << "\n";
     proc.maps++;
@@ -464,9 +512,6 @@ static void process_exit(Process& proc)
 
         //reset the PTE to all zeros so that no PAGEDOUT
         pte = {};
-        #ifdef DBG_FIFO
-        std::cout << "  [DEBUG] Freed frame " << frame->fid << " on process exit\n";
-        #endif
     }
 
     // --- Return freed frames to free_list preserving FIFO chronology -----
@@ -486,6 +531,10 @@ static void process_exit(Process& proc)
     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
         for (int fid : freed)
         free_list.push_back(fid);
+    } 
+    else if (auto* aging = dynamic_cast<Aging*>(pager.get())) {
+        for (auto it = freed.rbegin(); it != freed.rend(); ++it)
+        free_list.push_front(*it);
     } 
     else {
         //Default
@@ -507,6 +556,7 @@ int main(int argc, char* argv[])
         if (c == 'f') num_frames = std::atoi(optarg);
         else if (c == 'a') algo = optarg[0];
         else if (c == 'o') opts = optarg;
+        
     }
     if (optind + 2 != argc) {
         std::cerr << "usage: ./mmu -f# -aX [-oOPFS] input rfile\n";
@@ -528,7 +578,7 @@ int main(int argc, char* argv[])
     if(algo == 0) {
         // default when -a not given: FIFO
         pager = std::make_unique<FIFO>();
-    } else if(algo == 'f' || algo == 'F') {
+    } else if(algo == 'f') {
         pager = std::make_unique<FIFO>();
     } else if(algo == 'r' || algo == 'R') {
         pager = std::make_unique<RandomPager>();
@@ -536,6 +586,8 @@ int main(int argc, char* argv[])
         pager = std::make_unique<Clock>();
     } else if(algo == 'e' || algo == 'E') {
         pager = std::make_unique<NRU>();
+    } else if(algo == 'a') {
+        pager = std::make_unique<Aging>();
     } else {
         std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
         return 1; // terminate instead of silently choosing another pager
@@ -548,7 +600,6 @@ int main(int argc, char* argv[])
     bool dbg_y = opts.find('y') != std::string::npos;
     bool dbg_f = opts.find('f') != std::string::npos;
     bool dbg_a = opts.find('a') != std::string::npos;
-    dbg_a_enabled = dbg_a;
 
     // ----------------- 3. parse INPUT FILE -----------------
     std::ifstream fin(argv[optind]);
