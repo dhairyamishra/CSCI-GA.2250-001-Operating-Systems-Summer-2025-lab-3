@@ -1,9 +1,9 @@
-Bahubali
-make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+crunchy1.cims.nyu.edu
+make[1]: Entering directory '/home/dpm8739/os-summer-lab3/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 rm -f memoryman                 
 rm -rf output               *.o *.d 
-make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
-make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+make[1]: Leaving directory '/home/dpm8739/os-summer-lab3/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+make[1]: Entering directory '/home/dpm8739/os-summer-lab3/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
 memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
 memoryman.cpp:503:62: warning: unused parameter ‘op’ [-Wunused-parameter]
@@ -296,7 +296,7 @@ in11_16_w: TOTALCOST 5245 243 2 15093946 4
 ./memoryman -f31 -aw -oOPFS ./in11 ./rfile
 in11_31_w: TOTALCOST 5245 243 2 14319356 4
 bash gradeit.sh refout               output              
-b0cd7edeb06df4e7fe38c51cfc1a4670  - /home/dpm/1000/Bahubali/0722/1947/13.3.0
+844d37e1e3da37b74f4dd9af9a532431  - /home/dpm8739/4485524/crunchy1/0722/1955/11.5.0
 
 input  frames    f  r  c  e  a  w
 1       16       .  .  .  .  .  .
@@ -322,4 +322,4 @@ input  frames    f  r  c  e  a  w
 11      16       .  .  .  .  .  .
 11      31       .  .  .  .  .  .
 SUM             22 22 22 22 22 22
-make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
+make[1]: Leaving directory '/home/dpm8739/os-summer-lab3/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
