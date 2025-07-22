@@ -368,7 +368,8 @@ public:
             os << start << "-";
         }
         
-        // First pass: look for R=0 and age > TAU
+        // First pass: look for an immediate victim (R=0 & age>TAU) while also
+        frame_t* best_candidate = nullptr;            // oldest in-window frame
         while (true) {
             frame_t* f = &frame_table[hand];
             if (f->proc != nullptr) {
@@ -381,7 +382,8 @@ public:
                        << f->last_used << ")";
                 }
                 
-                if (!pte.REFERENCED && (instr_cnt - f->last_used > TAU)) {
+                unsigned long age = instr_cnt - f->last_used;
+                if (!pte.REFERENCED && age > TAU) {
                     // Found working set victim
                     frame_t* victim = f;
                     size_t victim_frame = hand;  // Save current position before updating hand
@@ -399,6 +401,12 @@ public:
                     return victim;
                 }
                 
+                // keep track of best candidate
+                if (!pte.REFERENCED) {
+                    if (!best_candidate || f->last_used < best_candidate->last_used)
+                        best_candidate = f;
+                }
+                
                 if (pte.REFERENCED) {
                     // Give second chance: update time and clear R
                     f->last_used = instr_cnt;
@@ -410,35 +418,20 @@ public:
             if (hand == start) break; // Full circle
         }
         
-        // Second pass: find oldest frame (fallback)
-        frame_t* oldest = nullptr;
-        unsigned long oldest_time = ULONG_MAX;
-        
-        for (size_t i = 0; i < N; ++i) {
-            frame_t* fr = &frame_table[i];
-            if (fr->proc && fr->last_used < oldest_time) {
-                oldest_time = fr->last_used;
-                oldest = fr;
-            }
-        }
-        
-        if (oldest) {
-            hand = (oldest->fid + 1) % N;
+        // No "age>tau" victim found – use best in-window candidate if any
+        if (best_candidate) {
+            hand = (best_candidate->fid + 1) % N;
             
             if (dbg_a_enabled) {
                 std::string debug_str = os.str();
                 size_t dash_pos = debug_str.find("-");
-                if (dash_pos != std::string::npos) {
-                    size_t end = (start + N - 1) % N;
-                    debug_str.insert(dash_pos + 1, std::to_string(start));
-                }
-                debug_str += " | " + std::to_string(oldest->fid);
+                if (dash_pos != std::string::npos)
+                    debug_str.insert(dash_pos + 1, std::to_string(best_candidate->fid));
+                debug_str += " | " + std::to_string(best_candidate->fid);
                 aselect_log(debug_str);
             }
-            return oldest;
+            return best_candidate;
         }
-        
-        // Ultimate fallback
         hand = (hand + 1) % N;
         return &frame_table[start];
     }

@@ -242,23 +242,23 @@
  ZERO
  MAP 14
 76: ==> r 10
- UNMAP 0:2
- OUT
- ZERO
- MAP 5
-77: ==> w 20
- UNMAP 0:54
- IN
- MAP 11
-78: ==> r 34
- UNMAP 0:45
- ZERO
- MAP 13
-79: ==> w 39
-80: ==> r 41
  UNMAP 0:4
  ZERO
  MAP 15
+77: ==> w 20
+ UNMAP 0:2
+ OUT
+ IN
+ MAP 5
+78: ==> r 34
+ UNMAP 0:54
+ ZERO
+ MAP 11
+79: ==> w 39
+80: ==> r 41
+ UNMAP 0:45
+ ZERO
+ MAP 13
 81: ==> r 19
  UNMAP 0:27
  ZERO
@@ -287,15 +287,15 @@
  IN
  MAP 8
 89: ==> r 1
- UNMAP 0:15
- OUT
- ZERO
- MAP 0
-90: ==> w 53
  UNMAP 0:23
  OUT
  ZERO
  MAP 9
+90: ==> w 53
+ UNMAP 0:15
+ OUT
+ ZERO
+ MAP 0
 91: ==> r 52
  UNMAP 0:31
  ZERO
@@ -307,25 +307,25 @@
 93: ==> r 15
  UNMAP 0:10
  IN
- MAP 5
+ MAP 15
 94: ==> w 12
  UNMAP 0:20
  OUT
  IN
- MAP 11
+ MAP 5
 95: ==> r 5
+ UNMAP 0:34
+ IN
+ MAP 11
+96: ==> r 25
  UNMAP 0:39
  OUT
  IN
  MAP 4
-96: ==> r 25
- UNMAP 0:34
- IN
- MAP 13
 97: ==> r 43
  UNMAP 0:41
  ZERO
- MAP 15
+ MAP 13
 98: ==> r 22
  UNMAP 0:3
  ZERO
@@ -337,6 +337,6 @@
  MAP 3
 100: ==> r 8
 PT[0]: * 1:--- # * * 5:--S * 7:--S 8:R-- * * 11:--- 12:-MS 13:-M- * 15:--S * * * 19:--- # * 22:--- # * 25:--S * * * 29:-M- * * * # * * 36:R-- # * # * * * 43:--- * * * * * * * # 52:--- 53:-M- # * * * * * * * # *
-FT: 0:1 0:19 0:22 0:36 0:5 0:15 0:11 0:29 0:7 0:53 0:52 0:12 0:8 0:25 0:13 0:43
+FT: 0:53 0:19 0:22 0:36 0:25 0:12 0:11 0:29 0:7 0:1 0:52 0:5 0:8 0:43 0:13 0:15
 PROC[0]: U=63 M=79 I=10 O=16 FI=0 FO=0 Z=69 SV=0 SP=0
 TOTALCOST 101 1 0 149090 4

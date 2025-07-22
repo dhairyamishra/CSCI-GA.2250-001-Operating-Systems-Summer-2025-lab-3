@@ -179,15 +179,15 @@
  ZERO
  MAP 13
 59: ==> r 18
+ UNMAP 1:23
+ ZERO
+ MAP 14
+60: ==> r 12
+61: ==> r 15
  UNMAP 1:1
  OUT
  ZERO
  MAP 6
-60: ==> r 12
-61: ==> r 15
- UNMAP 1:23
- ZERO
- MAP 14
 62: ==> r 11
  UNMAP 1:10
  ZERO
@@ -245,7 +245,7 @@
 79: ==> r 17
  UNMAP 0:15
  ZERO
- MAP 14
+ MAP 6
 80: ==> r 28
  UNMAP 0:11
  ZERO
@@ -263,16 +263,16 @@
  IN
  MAP 13
 84: ==> r 16
- UNMAP 0:4
- OUT
- ZERO
- MAP 2
-85: ==> r 3
-86: ==> w 2
  UNMAP 0:18
  OUT
+ ZERO
+ MAP 14
+85: ==> r 3
+86: ==> w 2
+ UNMAP 0:4
+ OUT
  IN
- MAP 6
+ MAP 2
 87: ==> r 41
  UNMAP 0:7
  FIN
@@ -309,7 +309,7 @@
 96: ==> w 20
  UNMAP 1:17
  ZERO
- MAP 14
+ MAP 6
 97: ==> r 7
  UNMAP 1:28
  ZERO
@@ -330,7 +330,7 @@
 101: ==> w 6
  UNMAP 1:16
  ZERO
- MAP 2
+ MAP 14
 102: ==> w 38
  UNMAP 1:3
  ZERO
@@ -340,7 +340,7 @@
  UNMAP 1:2
  OUT
  ZERO
- MAP 6
+ MAP 2
 105: ==> w 24
  UNMAP 1:41
  ZERO
@@ -382,7 +382,7 @@
  UNMAP 0:20
  OUT
  IN
- MAP 14
+ MAP 6
 116: ==> w 0
 117: ==> w 5
  UNMAP 0:7
@@ -404,7 +404,7 @@
  UNMAP 0:6
  OUT
  ZERO
- MAP 2
+ MAP 14
 122: ==> w 2
 123: ==> r 13
 124: ==> w 5
@@ -440,19 +440,19 @@
  ZERO
  MAP 9
 133: ==> r 5
- UNMAP 1:38
- ZERO
- MAP 1
-134: ==> r 37
  UNMAP 1:63
  FOUT
  ZERO
  MAP 10
+134: ==> r 37
+ UNMAP 1:38
+ ZERO
+ MAP 1
 135: ==> r 4
  UNMAP 1:0
  OUT
  IN
- MAP 6
+ MAP 2
 136: ==> r 1
  UNMAP 1:26
  OUT
@@ -467,23 +467,23 @@
 139: ==> r 15
  UNMAP 1:18
  IN
- MAP 2
+ MAP 14
 140: ==> r 31
- UNMAP 1:13
+ UNMAP 1:5
  OUT
  ZERO
- MAP 12
+ MAP 15
 141: ==> w 5
 142: ==> r 50
  UNMAP 1:2
  OUT
  ZERO
- MAP 14
+ MAP 6
 143: ==> r 10
- UNMAP 1:5
+ UNMAP 1:13
  OUT
  ZERO
- MAP 15
+ MAP 12
 144: ==> r 15
 145: ==> r 14
  UNMAP 1:1
@@ -522,11 +522,11 @@
 155: ==> r 17
  UNMAP 0:37
  ZERO
- MAP 10
+ MAP 1
 156: ==> w 45
  UNMAP 0:4
  FIN
- MAP 6
+ MAP 2
 157: ==> r 4
  UNMAP 0:1
  ZERO
@@ -536,24 +536,24 @@
  IN
  MAP 13
 159: ==> r 1
+ UNMAP 0:31
+ IN
+ MAP 15
+160: ==> r 1
+161: ==> r 5
  UNMAP 0:5
  OUT
  IN
- MAP 1
-160: ==> r 1
-161: ==> r 5
- UNMAP 0:31
- IN
- MAP 12
+ MAP 10
 162: ==> r 1
 163: ==> w 2
  UNMAP 0:10
  IN
- MAP 15
+ MAP 12
 164: ==> w 38
  UNMAP 0:15
  ZERO
- MAP 2
+ MAP 14
 165: ==> w 16
  UNMAP 0:14
  ZERO
@@ -561,7 +561,7 @@
 166: ==> r 28
  UNMAP 0:50
  ZERO
- MAP 14
+ MAP 6
 167: ==> r 47
  UNMAP 0:39
  OUT
@@ -593,12 +593,12 @@
 174: ==> r 22
  UNMAP 1:17
  ZERO
- MAP 10
+ MAP 1
 175: ==> r 37
  UNMAP 1:45
  FOUT
  ZERO
- MAP 6
+ MAP 2
 176: ==> r 10
  UNMAP 1:9
  ZERO
@@ -607,21 +607,21 @@
 178: ==> r 12
  UNMAP 1:1
  ZERO
- MAP 1
+ MAP 15
 179: ==> r 13
  UNMAP 1:5
  ZERO
- MAP 12
+ MAP 10
 180: ==> r 50
  UNMAP 1:2
  OUT
  ZERO
- MAP 15
+ MAP 12
 181: ==> r 45
  UNMAP 1:38
  OUT
  ZERO
- MAP 2
+ MAP 14
 182: ==> r 1
  UNMAP 1:16
  OUT
@@ -631,7 +631,7 @@
 184: ==> w 22
  UNMAP 1:28
  ZERO
- MAP 14
+ MAP 6
 185: ==> w 17
  UNMAP 1:47
  IN
@@ -657,39 +657,39 @@
  IN
  MAP 8
 193: ==> w 24
- UNMAP 1:4
+ UNMAP 1:27
  IN
- MAP 0
+ MAP 9
 194: ==> r 10
 195: ==> w 43
- UNMAP 1:27
+ UNMAP 1:4
  FIN
- MAP 9
+ MAP 0
 196: ==> w 26
  UNMAP 1:22
  IN
- MAP 10
+ MAP 1
 197: ==> r 25
  UNMAP 1:37
  IN
- MAP 6
+ MAP 2
 198: ==> r 7
  UNMAP 0:13
  ZERO
- MAP 12
+ MAP 10
 199: ==> w 25
 200: ==> r 18
  UNMAP 0:50
  ZERO
- MAP 15
+ MAP 12
 201: ==> r 23
  UNMAP 0:45
  ZERO
- MAP 2
+ MAP 14
 202: ==> r 5
  UNMAP 0:12
  IN
- MAP 1
+ MAP 15
 203: ==> r 31
  UNMAP 0:1
  ZERO
@@ -698,7 +698,7 @@
  UNMAP 0:22
  OUT
  ZERO
- MAP 14
+ MAP 6
 205: ==> r 20
  UNMAP 0:17
  OUT
@@ -722,7 +722,7 @@
  MAP 8
 PT[0]: # # # * # # # * * # * * * * * # * # # * # * # * * * * * * * * * # * * # * * # # # * * * * * # * * * * * * * * * * * * # * * * *
 PT[1]: # # # 3:-M- 4:--- 5:--S * 7:--- 8:R-- # 10:--- * * # * 15:--- # * 18:--- # 20:--- * * 23:--- 24:-MS 25:-MS 26:-MS # * # * 31:--- * 33:-M- # * * * # # * * * 43:-M- * * * * * * * * * * * * * * * * * * * *
-FT: 1:24 1:5 1:23 1:31 1:15 1:3 1:25 1:20 1:8 1:43 1:26 1:33 1:7 1:10 1:4 1:18
+FT: 1:43 1:26 1:25 1:31 1:15 1:3 1:4 1:20 1:8 1:24 1:7 1:33 1:18 1:10 1:23 1:5
 PROC[0]: U=70 M=70 I=12 O=21 FI=0 FO=0 Z=58 SV=0 SP=0
 PROC[1]: U=75 M=91 I=16 O=21 FI=13 FO=3 Z=62 SV=0 SP=0
 TOTALCOST 210 10 0 412530 4

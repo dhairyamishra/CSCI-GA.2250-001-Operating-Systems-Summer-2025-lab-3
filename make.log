@@ -5,30 +5,26 @@ rm -rf output               *.o *.d
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
-memoryman.cpp: In member function ‘virtual frame_t* WorkingSet::select_victim_frame()’:
-memoryman.cpp:432:28: warning: unused variable ‘end’ [-Wunused-variable]
-  432 |                     size_t end = (start + N - 1) % N;
-      |                            ^~~
 memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
-memoryman.cpp:510:62: warning: unused parameter ‘op’ [-Wunused-parameter]
-  510 | static void handle_page_fault(Process& proc, int vpage, char op)
+memoryman.cpp:503:62: warning: unused parameter ‘op’ [-Wunused-parameter]
+  503 | static void handle_page_fault(Process& proc, int vpage, char op)
       |                                                         ~~~~~^~
 memoryman.cpp: In function ‘void process_exit(Process&)’:
-memoryman.cpp:627:20: warning: unused variable ‘aging’ [-Wunused-variable]
-  627 |     else if (auto* aging = dynamic_cast<Aging*>(pager.get())) {
+memoryman.cpp:620:20: warning: unused variable ‘aging’ [-Wunused-variable]
+  620 |     else if (auto* aging = dynamic_cast<Aging*>(pager.get())) {
       |                    ^~~~~
-memoryman.cpp:623:20: warning: unused variable ‘random’ [-Wunused-variable]
-  623 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
+memoryman.cpp:616:20: warning: unused variable ‘random’ [-Wunused-variable]
+  616 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
       |                    ^~~~~~
-memoryman.cpp:619:21: warning: unused variable ‘clock’ [-Wunused-variable]
-  619 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
+memoryman.cpp:612:21: warning: unused variable ‘clock’ [-Wunused-variable]
+  612 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
       |                     ^~~~~
 memoryman.cpp: In function ‘int main(int, char**)’:
-memoryman.cpp:749:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
-  749 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:742:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  742 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |         ^~
-memoryman.cpp:749:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
-  749 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:742:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  742 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |                                 ^~~~~~~
 memoryman.cpp: At global scope:
 memoryman.cpp:79:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
@@ -250,7 +246,7 @@ in9_31_a: TOTALCOST 1051 51 0 3086278 4
 ./memoryman -f16 -aw -oOPFS ./in9 ./rfile
 in9_16_w: TOTALCOST 1051 51 0 3154308 4
 ./memoryman -f31 -aw -oOPFS ./in9 ./rfile
-in9_31_w: TOTALCOST 1051 51 0 3090338 4
+in9_31_w: TOTALCOST 1051 51 0 3086278 4
 ./memoryman -f16 -af -oOPFS ./in10 ./rfile
 in10_16_f: TOTALCOST 5243 243 0 14572336 4
 ./memoryman -f31 -af -oOPFS ./in10 ./rfile
@@ -298,32 +294,32 @@ in11_31_a: TOTALCOST 5245 243 2 14312446 4
 ./memoryman -f16 -aw -oOPFS ./in11 ./rfile
 in11_16_w: TOTALCOST 5245 243 2 15093946 4
 ./memoryman -f31 -aw -oOPFS ./in11 ./rfile
-in11_31_w: TOTALCOST 5245 243 2 14307036 4
+in11_31_w: TOTALCOST 5245 243 2 14319356 4
 bash gradeit.sh refout               output              
-7b77e9a5b1cdcb20c0db6d3fdaa3d503  - /home/dpm/1000/Bahubali/0722/0123/13.3.0
+b0cd7edeb06df4e7fe38c51cfc1a4670  - /home/dpm/1000/Bahubali/0722/1947/13.3.0
 
 input  frames    f  r  c  e  a  w
 1       16       .  .  .  .  .  .
 1       31       .  .  .  .  .  .
 2       16       .  .  .  .  .  .
 2       31       .  .  .  .  .  .
-3       16       .  .  .  .  .  #
+3       16       .  .  .  .  .  .
 3       31       .  .  .  .  .  .
-4       16       .  .  .  .  .  #
-4       31       .  .  .  .  .  #
-5       16       .  .  .  .  .  #
-5       31       .  .  .  .  .  #
-6       16       .  .  .  .  .  #
+4       16       .  .  .  .  .  .
+4       31       .  .  .  .  .  .
+5       16       .  .  .  .  .  .
+5       31       .  .  .  .  .  .
+6       16       .  .  .  .  .  .
 6       31       .  .  .  .  .  .
-7       16       .  .  .  .  .  #
-7       31       .  .  .  .  .  #
-8       16       .  .  .  .  .  #
-8       31       .  .  .  .  .  #
-9       16       .  .  .  .  .  #
-9       31       .  .  .  .  .  #
-10      16       .  .  .  .  .  #
-10      31       .  .  .  .  .  #
-11      16       .  .  .  .  .  #
-11      31       .  .  .  .  .  #
-SUM             22 22 22 22 22  6
+7       16       .  .  .  .  .  .
+7       31       .  .  .  .  .  .
+8       16       .  .  .  .  .  .
+8       31       .  .  .  .  .  .
+9       16       .  .  .  .  .  .
+9       31       .  .  .  .  .  .
+10      16       .  .  .  .  .  .
+10      31       .  .  .  .  .  .
+11      16       .  .  .  .  .  .
+11      31       .  .  .  .  .  .
+SUM             22 22 22 22 22 22
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
