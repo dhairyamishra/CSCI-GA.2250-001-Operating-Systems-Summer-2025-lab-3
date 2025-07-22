@@ -11,6 +11,7 @@
 #include <array>
 #include <memory>
 #include <algorithm>
+#include <climits>
 
 // ----------------- constants -----------------
 constexpr int MAX_VPAGES = 64;   
@@ -33,7 +34,7 @@ static_assert(sizeof(pte_t) == 4, "pte_t must be 32-bit");
 static bool dbg_a_enabled = false;   // turned on by -oa
 static void aselect_log(const std::string& msg)
 {
-    if (dbg_a_enabled) std::cout << "ASELECT: " << msg << "\n";
+    if (dbg_a_enabled) std::cout << "ASELECT " << msg << "\n";
 }
 
 // forward declaration so frame_t can reference Process
@@ -351,6 +352,97 @@ public:
     }
 };
 
+/* ---------------- Working Set Pager ---------------- */
+class WorkingSet : public Pager {
+    size_t hand = 0;
+    static constexpr unsigned long TAU = 49;
+
+public:
+    frame_t* select_victim_frame() override {
+        const size_t N = frame_table.size();
+        size_t start = hand;
+        size_t examined = 0;
+        
+        std::ostringstream os;
+        if (dbg_a_enabled) {
+            os << start << "-";
+        }
+        
+        // First pass: look for R=0 and age > TAU
+        while (true) {
+            frame_t* f = &frame_table[hand];
+            if (f->proc != nullptr) {
+                pte_t& pte = f->proc->page_table[f->vpage];
+                examined++;
+                
+                if (dbg_a_enabled) {
+                    os << " " << hand << "(" << pte.REFERENCED << " "
+                       << f->proc->pid << ":" << f->vpage << " "
+                       << f->last_used << ")";
+                }
+                
+                if (!pte.REFERENCED && (instr_cnt - f->last_used > TAU)) {
+                    // Found working set victim
+                    frame_t* victim = f;
+                    size_t victim_frame = hand;  // Save current position before updating hand
+                    hand = (hand + 1) % N;
+                    
+                    if (dbg_a_enabled) {
+                        std::string debug_str = os.str();
+                        size_t dash_pos = debug_str.find("-");
+                        if (dash_pos != std::string::npos) {
+                            debug_str.insert(dash_pos + 1, std::to_string(victim_frame));
+                        }
+                        debug_str += " STOP(" + std::to_string(examined) + ") | " + std::to_string(f->fid);
+                        aselect_log(debug_str);
+                    }
+                    return victim;
+                }
+                
+                if (pte.REFERENCED) {
+                    // Give second chance: update time and clear R
+                    f->last_used = instr_cnt;
+                    pte.REFERENCED = 0;
+                }
+            }
+            
+            hand = (hand + 1) % N;
+            if (hand == start) break; // Full circle
+        }
+        
+        // Second pass: find oldest frame (fallback)
+        frame_t* oldest = nullptr;
+        unsigned long oldest_time = ULONG_MAX;
+        
+        for (size_t i = 0; i < N; ++i) {
+            frame_t* fr = &frame_table[i];
+            if (fr->proc && fr->last_used < oldest_time) {
+                oldest_time = fr->last_used;
+                oldest = fr;
+            }
+        }
+        
+        if (oldest) {
+            hand = (oldest->fid + 1) % N;
+            
+            if (dbg_a_enabled) {
+                std::string debug_str = os.str();
+                size_t dash_pos = debug_str.find("-");
+                if (dash_pos != std::string::npos) {
+                    size_t end = (start + N - 1) % N;
+                    debug_str.insert(dash_pos + 1, std::to_string(start));
+                }
+                debug_str += " | " + std::to_string(oldest->fid);
+                aselect_log(debug_str);
+            }
+            return oldest;
+        }
+        
+        // Ultimate fallback
+        hand = (hand + 1) % N;
+        return &frame_table[start];
+    }
+};
 
 static std::unique_ptr<Pager> pager;
 
@@ -467,7 +559,7 @@ static void handle_page_fault(Process& proc, int vpage, char op)
     pte.frame   = frame->fid;
     // age has to be reset to 0 on each MAP operation
     frame->age  = 0; // reset age for aging algo
-
+    frame->last_used = instr_cnt; // working set timestamp
     std::cout << " MAP " << frame->fid << "\n";
     proc.maps++;
     total_cost += COST_MAP;
@@ -588,6 +680,8 @@ int main(int argc, char* argv[])
         pager = std::make_unique<NRU>();
     } else if(algo == 'a') {
         pager = std::make_unique<Aging>();
+    } else if(algo == 'w') {
+        pager = std::make_unique<WorkingSet>();
     } else {
         std::cerr << "error: pager algorithm '" << algo << "' is not implemented\n";
         return 1; // terminate instead of silently choosing another pager
@@ -599,7 +693,7 @@ int main(int argc, char* argv[])
     bool dbg_x = opts.find('x') != std::string::npos;
     bool dbg_y = opts.find('y') != std::string::npos;
     bool dbg_f = opts.find('f') != std::string::npos;
-    bool dbg_a = opts.find('a') != std::string::npos;
+    dbg_a_enabled = opts.find('a') != std::string::npos;
 
     // ----------------- 3. parse INPUT FILE -----------------
     std::ifstream fin(argv[optind]);
@@ -657,9 +751,15 @@ int main(int argc, char* argv[])
         if(ins.op=='r'||ins.op=='w'){
             int vp=ins.arg; pte_t& pte=cur.page_table[vp];
             if(!pte.PRESENT) handle_page_fault(cur,vp,ins.op);
-            if(pte.PRESENT){ pte.REFERENCED=1; if(ins.op=='w'){
-                if(pte.WRITE_PROTECT){ std::cout<<" SEGPROT\n"; cur.segprot++; total_cost+=COST_SEGPROT; }
-                else pte.MODIFIED=1; }} }
+            if(pte.PRESENT){ 
+                pte.REFERENCED=1; if(ins.op=='w'){
+                if(pte.WRITE_PROTECT){ 
+                    std::cout<<" SEGPROT\n"; 
+                    cur.segprot++; total_cost+=COST_SEGPROT; 
+                }
+                else pte.MODIFIED=1; }
+            } 
+        }
 
         if(ins.op=='e'){
             int pid_to_exit = ins.arg;

@@ -5,33 +5,34 @@ rm -rf output               *.o *.d
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 make[1]: Entering directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
 g++ -std=c++17 -Wall -Wextra -O2 -g -o memoryman memoryman.cpp
+memoryman.cpp: In member function ‘virtual frame_t* WorkingSet::select_victim_frame()’:
+memoryman.cpp:432:28: warning: unused variable ‘end’ [-Wunused-variable]
+  432 |                     size_t end = (start + N - 1) % N;
+      |                            ^~~
 memoryman.cpp: In function ‘void handle_page_fault(Process&, int, char)’:
-memoryman.cpp:418:62: warning: unused parameter ‘op’ [-Wunused-parameter]
-  418 | static void handle_page_fault(Process& proc, int vpage, char op)
+memoryman.cpp:510:62: warning: unused parameter ‘op’ [-Wunused-parameter]
+  510 | static void handle_page_fault(Process& proc, int vpage, char op)
       |                                                         ~~~~~^~
 memoryman.cpp: In function ‘void process_exit(Process&)’:
-memoryman.cpp:535:20: warning: unused variable ‘aging’ [-Wunused-variable]
-  535 |     else if (auto* aging = dynamic_cast<Aging*>(pager.get())) {
+memoryman.cpp:627:20: warning: unused variable ‘aging’ [-Wunused-variable]
+  627 |     else if (auto* aging = dynamic_cast<Aging*>(pager.get())) {
       |                    ^~~~~
-memoryman.cpp:531:20: warning: unused variable ‘random’ [-Wunused-variable]
-  531 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
+memoryman.cpp:623:20: warning: unused variable ‘random’ [-Wunused-variable]
+  623 |     else if (auto* random = dynamic_cast<RandomPager*>(pager.get())) {
       |                    ^~~~~~
-memoryman.cpp:527:21: warning: unused variable ‘clock’ [-Wunused-variable]
-  527 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
+memoryman.cpp:619:21: warning: unused variable ‘clock’ [-Wunused-variable]
+  619 |     }else if (auto* clock = dynamic_cast<Clock*>(pager.get())) {
       |                     ^~~~~
 memoryman.cpp: In function ‘int main(int, char**)’:
-memoryman.cpp:655:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
-  655 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:749:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  749 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |         ^~
-memoryman.cpp:655:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
-  655 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
+memoryman.cpp:749:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  749 |         if(cur_pid<0) continue; Process& cur=procs[cur_pid];
       |                                 ^~~~~~~
-memoryman.cpp:602:10: warning: unused variable ‘dbg_a’ [-Wunused-variable]
-  602 |     bool dbg_a = opts.find('a') != std::string::npos;
-      |          ^~~~~
 memoryman.cpp: At global scope:
-memoryman.cpp:78:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
-   78 | static std::ostream& operator<<(std::ostream& os, const Process& p) {
+memoryman.cpp:79:22: warning: ‘std::ostream& operator<<(std::ostream&, const Process&)’ defined but not used [-Wunused-function]
+   79 | static std::ostream& operator<<(std::ostream& os, const Process& p) {
       |                      ^~~~~~~~
 bash runit.sh output               ./memoryman                 
 ./memoryman -f16 -af -oOPFS ./in1 ./rfile
@@ -55,11 +56,9 @@ in1_16_a: TOTALCOST 31 1 0 30790 4
 ./memoryman -f31 -aa -oOPFS ./in1 ./rfile
 in1_31_a: TOTALCOST 31 1 0 14990 4
 ./memoryman -f16 -aw -oOPFS ./in1 ./rfile
-error: pager algorithm 'w' is not implemented
-in1_16_w: 
+in1_16_w: TOTALCOST 31 1 0 30790 4
 ./memoryman -f31 -aw -oOPFS ./in1 ./rfile
-error: pager algorithm 'w' is not implemented
-in1_31_w: 
+in1_31_w: TOTALCOST 31 1 0 14990 4
 ./memoryman -f16 -af -oOPFS ./in2 ./rfile
 in2_16_f: TOTALCOST 31 1 0 37320 4
 ./memoryman -f31 -af -oOPFS ./in2 ./rfile
@@ -81,11 +80,9 @@ in2_16_a: TOTALCOST 31 1 0 37320 4
 ./memoryman -f31 -aa -oOPFS ./in2 ./rfile
 in2_31_a: TOTALCOST 31 1 0 13850 4
 ./memoryman -f16 -aw -oOPFS ./in2 ./rfile
-error: pager algorithm 'w' is not implemented
-in2_16_w: 
+in2_16_w: TOTALCOST 31 1 0 37320 4
 ./memoryman -f31 -aw -oOPFS ./in2 ./rfile
-error: pager algorithm 'w' is not implemented
-in2_31_w: 
+in2_31_w: TOTALCOST 31 1 0 13850 4
 ./memoryman -f16 -af -oOPFS ./in3 ./rfile
 in3_16_f: TOTALCOST 101 1 0 149090 4
 ./memoryman -f31 -af -oOPFS ./in3 ./rfile
@@ -107,11 +104,9 @@ in3_16_a: TOTALCOST 101 1 0 149090 4
 ./memoryman -f31 -aa -oOPFS ./in3 ./rfile
 in3_31_a: TOTALCOST 101 1 0 93150 4
 ./memoryman -f16 -aw -oOPFS ./in3 ./rfile
-error: pager algorithm 'w' is not implemented
-in3_16_w: 
+in3_16_w: TOTALCOST 101 1 0 149090 4
 ./memoryman -f31 -aw -oOPFS ./in3 ./rfile
-error: pager algorithm 'w' is not implemented
-in3_31_w: 
+in3_31_w: TOTALCOST 101 1 0 90300 4
 ./memoryman -f16 -af -oOPFS ./in4 ./rfile
 in4_16_f: TOTALCOST 101 1 0 164804 4
 ./memoryman -f31 -af -oOPFS ./in4 ./rfile
@@ -133,11 +128,9 @@ in4_16_a: TOTALCOST 101 1 0 154034 4
 ./memoryman -f31 -aa -oOPFS ./in4 ./rfile
 in4_31_a: TOTALCOST 101 1 0 93204 4
 ./memoryman -f16 -aw -oOPFS ./in4 ./rfile
-error: pager algorithm 'w' is not implemented
-in4_16_w: 
+in4_16_w: TOTALCOST 101 1 0 154034 4
 ./memoryman -f31 -aw -oOPFS ./in4 ./rfile
-error: pager algorithm 'w' is not implemented
-in4_31_w: 
+in4_31_w: TOTALCOST 101 1 0 93204 4
 ./memoryman -f16 -af -oOPFS ./in5 ./rfile
 in5_16_f: TOTALCOST 101 1 0 260450 4
 ./memoryman -f31 -af -oOPFS ./in5 ./rfile
@@ -159,11 +152,9 @@ in5_16_a: TOTALCOST 101 1 0 259440 4
 ./memoryman -f31 -aa -oOPFS ./in5 ./rfile
 in5_31_a: TOTALCOST 101 1 0 185390 4
 ./memoryman -f16 -aw -oOPFS ./in5 ./rfile
-error: pager algorithm 'w' is not implemented
-in5_16_w: 
+in5_16_w: TOTALCOST 101 1 0 259440 4
 ./memoryman -f31 -aw -oOPFS ./in5 ./rfile
-error: pager algorithm 'w' is not implemented
-in5_31_w: 
+in5_31_w: TOTALCOST 101 1 0 185390 4
 ./memoryman -f16 -af -oOPFS ./in6 ./rfile
 in6_16_f: TOTALCOST 101 1 0 165672 4
 ./memoryman -f31 -af -oOPFS ./in6 ./rfile
@@ -185,11 +176,9 @@ in6_16_a: TOTALCOST 101 1 0 164462 4
 ./memoryman -f31 -aa -oOPFS ./in6 ./rfile
 in6_31_a: TOTALCOST 101 1 0 112602 4
 ./memoryman -f16 -aw -oOPFS ./in6 ./rfile
-error: pager algorithm 'w' is not implemented
-in6_16_w: 
+in6_16_w: TOTALCOST 101 1 0 164462 4
 ./memoryman -f31 -aw -oOPFS ./in6 ./rfile
-error: pager algorithm 'w' is not implemented
-in6_31_w: 
+in6_31_w: TOTALCOST 101 1 0 112602 4
 ./memoryman -f16 -af -oOPFS ./in7 ./rfile
 in7_16_f: TOTALCOST 213 13 0 345820 4
 ./memoryman -f31 -af -oOPFS ./in7 ./rfile
@@ -211,11 +200,9 @@ in7_16_a: TOTALCOST 213 13 0 342770 4
 ./memoryman -f31 -aa -oOPFS ./in7 ./rfile
 in7_31_a: TOTALCOST 213 13 0 215150 4
 ./memoryman -f16 -aw -oOPFS ./in7 ./rfile
-error: pager algorithm 'w' is not implemented
-in7_16_w: 
+in7_16_w: TOTALCOST 213 13 0 342770 4
 ./memoryman -f31 -aw -oOPFS ./in7 ./rfile
-error: pager algorithm 'w' is not implemented
-in7_31_w: 
+in7_31_w: TOTALCOST 213 13 0 215150 4
 ./memoryman -f16 -af -oOPFS ./in8 ./rfile
 in8_16_f: TOTALCOST 210 10 0 411520 4
 ./memoryman -f31 -af -oOPFS ./in8 ./rfile
@@ -237,11 +224,9 @@ in8_16_a: TOTALCOST 210 10 0 412530 4
 ./memoryman -f31 -aa -oOPFS ./in8 ./rfile
 in8_31_a: TOTALCOST 210 10 0 326330 4
 ./memoryman -f16 -aw -oOPFS ./in8 ./rfile
-error: pager algorithm 'w' is not implemented
-in8_16_w: 
+in8_16_w: TOTALCOST 210 10 0 412530 4
 ./memoryman -f31 -aw -oOPFS ./in8 ./rfile
-error: pager algorithm 'w' is not implemented
-in8_31_w: 
+in8_31_w: TOTALCOST 210 10 0 326330 4
 ./memoryman -f16 -af -oOPFS ./in9 ./rfile
 in9_16_f: TOTALCOST 1051 51 0 3149238 4
 ./memoryman -f31 -af -oOPFS ./in9 ./rfile
@@ -263,11 +248,9 @@ in9_16_a: TOTALCOST 1051 51 0 3154308 4
 ./memoryman -f31 -aa -oOPFS ./in9 ./rfile
 in9_31_a: TOTALCOST 1051 51 0 3086278 4
 ./memoryman -f16 -aw -oOPFS ./in9 ./rfile
-error: pager algorithm 'w' is not implemented
-in9_16_w: 
+in9_16_w: TOTALCOST 1051 51 0 3154308 4
 ./memoryman -f31 -aw -oOPFS ./in9 ./rfile
-error: pager algorithm 'w' is not implemented
-in9_31_w: 
+in9_31_w: TOTALCOST 1051 51 0 3090338 4
 ./memoryman -f16 -af -oOPFS ./in10 ./rfile
 in10_16_f: TOTALCOST 5243 243 0 14572336 4
 ./memoryman -f31 -af -oOPFS ./in10 ./rfile
@@ -289,11 +272,9 @@ in10_16_a: TOTALCOST 5243 243 0 14563326 4
 ./memoryman -f31 -aa -oOPFS ./in10 ./rfile
 in10_31_a: TOTALCOST 5243 243 0 14471286 4
 ./memoryman -f16 -aw -oOPFS ./in10 ./rfile
-error: pager algorithm 'w' is not implemented
-in10_16_w: 
+in10_16_w: TOTALCOST 5243 243 0 14563326 4
 ./memoryman -f31 -aw -oOPFS ./in10 ./rfile
-error: pager algorithm 'w' is not implemented
-in10_31_w: 
+in10_31_w: TOTALCOST 5243 243 0 14468436 4
 ./memoryman -f16 -af -oOPFS ./in11 ./rfile
 in11_16_f: TOTALCOST 5245 243 2 15095666 4
 ./memoryman -f31 -af -oOPFS ./in11 ./rfile
@@ -315,27 +296,25 @@ in11_16_a: TOTALCOST 5245 243 2 15093946 4
 ./memoryman -f31 -aa -oOPFS ./in11 ./rfile
 in11_31_a: TOTALCOST 5245 243 2 14312446 4
 ./memoryman -f16 -aw -oOPFS ./in11 ./rfile
-error: pager algorithm 'w' is not implemented
-in11_16_w: 
+in11_16_w: TOTALCOST 5245 243 2 15093946 4
 ./memoryman -f31 -aw -oOPFS ./in11 ./rfile
-error: pager algorithm 'w' is not implemented
-in11_31_w: 
+in11_31_w: TOTALCOST 5245 243 2 14307036 4
 bash gradeit.sh refout               output              
-f51b13ba574a553ec385b4de9f011fbd  - /home/dpm/1000/Bahubali/0717/1811/13.3.0
+7b77e9a5b1cdcb20c0db6d3fdaa3d503  - /home/dpm/1000/Bahubali/0722/0123/13.3.0
 
 input  frames    f  r  c  e  a  w
-1       16       .  .  .  .  .  #
-1       31       .  .  .  .  .  #
-2       16       .  .  .  .  .  #
-2       31       .  .  .  .  .  #
+1       16       .  .  .  .  .  .
+1       31       .  .  .  .  .  .
+2       16       .  .  .  .  .  .
+2       31       .  .  .  .  .  .
 3       16       .  .  .  .  .  #
-3       31       .  .  .  .  .  #
+3       31       .  .  .  .  .  .
 4       16       .  .  .  .  .  #
 4       31       .  .  .  .  .  #
 5       16       .  .  .  .  .  #
 5       31       .  .  .  .  .  #
 6       16       .  .  .  .  .  #
-6       31       .  .  .  .  .  #
+6       31       .  .  .  .  .  .
 7       16       .  .  .  .  .  #
 7       31       .  .  .  .  .  #
 8       16       .  .  .  .  .  #
@@ -346,5 +325,5 @@ input  frames    f  r  c  e  a  w
 10      31       .  .  .  .  .  #
 11      16       .  .  .  .  .  #
 11      31       .  .  .  .  .  #
-SUM             22 22 22 22 22  0
+SUM             22 22 22 22 22  6
 make[1]: Leaving directory '/mnt/c/Users/dhair/Desktop/Operating Systems/lab3_assign/CSCI-GA.2250-001-Operating-Systems-Summer-2025-lab-3'
